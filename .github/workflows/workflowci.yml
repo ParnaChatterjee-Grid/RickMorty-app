@@ -40,8 +40,8 @@ jobs:
 
       # Step 6: Run Kotlinter linting
       - name: Run Kotlinter check (Linting)
-        run: ./gradlew ktlintCheck
+        run: ./gradlew lintKotlin
 
       # Step 7: Run Kotlinter Format
       - name: Run Kotlinter format (Linting)
-        run: ./gradlew ktlintFormat
+        run: ./gradlew formatKotlin
