@@ -21,3 +21,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "MyJetpackApplication"
 include(":app")
+include(":data")
+include(":presentation")
+include(":domain")
