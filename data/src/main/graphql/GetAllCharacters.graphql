@@ -1,0 +1,17 @@
+query GetAllCharacters{
+    characters {
+        results {
+            name
+            image
+            id
+        }
+    }
+}
+fragment character on Character{
+    id
+    name
+    image
+    gender
+    species
+    status
+}
