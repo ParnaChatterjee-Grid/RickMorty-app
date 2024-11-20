@@ -28,9 +28,6 @@ class CharacterRepositoryImpl @Inject constructor(private val apolloClient: Apol
                     id = character?.id.orEmpty(),
                     name = character?.name.orEmpty(),
                     image = character?.image.orEmpty(),
-                    gender = TODO(),
-                    species = TODO(),
-                    status = TODO(),
                 )
             }?: emptyList()
             emit(Results.Success(characters))

@@ -1,10 +1,8 @@
 name: workflowCI
-
 on:
   pull_request:
     branches:
       - '*'  # Trigger on PRs targeting any branch
-
 jobs:
   build:
     runs-on: ubuntu-latest

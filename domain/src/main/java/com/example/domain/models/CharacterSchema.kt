@@ -4,7 +4,7 @@ data class CharacterSchema(
     var id: String,
     var name: String,
     var image: String,
-    var gender: String,
+    /*var gender: String,
     var species: String,
-    var status: String
+    var status: String*/
 )
