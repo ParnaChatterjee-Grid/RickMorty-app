@@ -14,15 +14,19 @@ object ApolloClient{
 
     @Provides
     @Singleton
-    fun provideApolloClient(): ApolloClient {
-        val httpClient = OkHttpClient.Builder().addInterceptor(
+    fun provideApolloClient(httpClient : OkHttpClient): ApolloClient {
+        return ApolloClient.Builder().serverUrl(RickMortConstants.RICK_MORTY_URL)
+            .okHttpClient(httpClient)
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideOkHttpClient(): OkHttpClient{
+        return OkHttpClient.Builder().addInterceptor(
             HttpLoggingInterceptor().apply {
                 level = HttpLoggingInterceptor.Level.BODY
             }
         ).build()
-
-        return ApolloClient.Builder().serverUrl(RickMortConstants.RICK_MORTY_URL)
-            .okHttpClient(httpClient)
-            .build()
     }
 }

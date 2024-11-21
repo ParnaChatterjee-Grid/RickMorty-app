@@ -7,8 +7,8 @@ import com.example.domain.utils.Results
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class GetCharacters @Inject constructor(private val repository: CharacterRepository){
-    suspend fun getCharacters(): Flow<Results<List<CharacterSchema>>> {
+class GetCharactersUsecase @Inject constructor(private val repository: CharacterRepository){
+    suspend  fun invoke(): Flow<Results<List<CharacterSchema>>> {
         return repository.getCharacters()
     }
 }

@@ -5,5 +5,5 @@ import com.example.domain.utils.Results
 import kotlinx.coroutines.flow.Flow
 
 interface CharacterRepository {
-    suspend fun getCharacters(): Flow<Results<List<CharacterSchema>>>
+    suspend fun getCharacters(): Flow<Results<List<CharacterSchema?>>>
 }

@@ -3,7 +3,7 @@ package com.example.data.module
 import com.apollographql.apollo.ApolloClient
 import com.example.data.repository.CharacterRepositoryImpl
 import com.example.domain.repository.CharacterRepository
-import com.example.domain.usecases.GetCharacters
+import com.example.domain.usecases.GetCharactersUsecase
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -18,7 +18,7 @@ object DataModule {
 
     @Provides
     @Singleton
-    fun provideGetCharactersUseCase(repository: CharacterRepository): GetCharacters {
-        return GetCharacters(repository)
+    fun provideGetCharactersUseCase(repository: CharacterRepository): GetCharactersUsecase {
+        return GetCharactersUsecase(repository)
     }
 }
