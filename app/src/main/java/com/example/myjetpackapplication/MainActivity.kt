@@ -25,12 +25,6 @@ class MainActivity : ComponentActivity() {
                 ViewModelProvider(LocalContext.current as ComponentActivity,
                     viewModelFactoryProvider)[CharacterViewModel::class.java]
                 CharacterListScreen(characterViewModel)
-              /*  val characterViewModel: CharacterViewModel =
-                    ViewModelProvider(
-                        LocalContext.current as ComponentActivity,
-                        viewModelFactoryProvider
-                    )[CharacterViewModel::class.java]
-                CharacterListScreen(characterViewModel)*/
             }
         }
     }
