@@ -47,7 +47,7 @@ Compose:
   DefaultsVisibility:
     active: true
   LambdaParameterEventTrailing:
-    active: false
+    active: true
     # You can optionally add your own composables here
     # contentEmitters: MyComposable,MyOtherComposable
     # You can add composables here that you don't want to count as content emitters
@@ -381,7 +381,7 @@ exceptions:
     active: true
     ignoreLabeled: false
   SwallowedException:
-    active: false
+    active: true
     ignoredExceptionTypes:
       - 'InterruptedException'
       - 'MalformedURLException'
@@ -408,7 +408,7 @@ exceptions:
   ThrowingNewInstanceOfSameException:
     active: true
   TooGenericExceptionCaught:
-    active: false
+    active: true
     excludes: ['**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/androidUnitTest/**', '**/androidInstrumentedTest/**', '**/jsTest/**', '**/iosTest/**']
     exceptionNames:
       - 'ArrayIndexOutOfBoundsException'
