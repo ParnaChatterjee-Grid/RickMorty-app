@@ -32,7 +32,7 @@ class CharacterRepositoryImpl @Inject constructor(private val apolloClient: Apol
                 is ApolloHttpException ->
                     throw CustomExceptions.ApolloHttpError(ex)
                 is ApolloWebSocketClosedException ->
-                    throw CustomExceptions.ApolloWebSocketClosedError(ex)
+                    throw CustomExceptions.ApolloWebSocketClose(ex)
 
                 else -> {
                     // Default case for unknown ApolloExceptions
@@ -44,26 +44,4 @@ class CharacterRepositoryImpl @Inject constructor(private val apolloClient: Apol
         }
     }
 }
-
-/*
-               is com.apollographql.apollo.exception.ApolloGraphQLException -> TODO()
-               is com.apollographql.apollo.exception.ApolloHttpException -> TODO()
-            //   is com.apollographql.apollo.exception.ApolloNetworkException -> TODO()
-               is com.apollographql.apollo.exception.ApolloParseException -> TODO()
-               is com.apollographql.apollo.exception.ApolloWebSocketClosedException -> TODO()
-               com.apollographql.apollo.exception.ApolloWebSocketForceCloseException -> TODO()
-               is com.apollographql.apollo.exception.AutoPersistedQueriesNotSupported -> TODO()
-               is com.apollographql.apollo.exception.CacheMissException -> TODO()
-               is com.apollographql.apollo.exception.DefaultApolloException -> TODO()
-               is com.apollographql.apollo.exception.HttpCacheMissException -> TODO()
-               is com.apollographql.apollo.exception.JsonDataException -> TODO()
-               is com.apollographql.apollo.exception.JsonEncodingException -> TODO()
-               is com.apollographql.apollo.exception.MissingValueException -> TODO()
-               is com.apollographql.apollo.exception.NoDataException -> TODO()
-               is com.apollographql.apollo.exception.NullOrMissingField -> TODO()
-               is com.apollographql.apollo.exception.RouterError -> TODO()
-               is com.apollographql.apollo.exception.SubscriptionConnectionException -> TODO()
-               is com.apollographql.apollo.exception.SubscriptionOperationException -> TODO()*/
-
-
 
