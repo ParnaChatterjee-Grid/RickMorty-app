@@ -43,6 +43,7 @@ dependencies {
     implementation(libs.transport.runtime)
     implementation(libs.dagger)
     implementation(project(":domain"))
+    implementation(project(":common"))
     ksp(libs.dagger.compiler)
     implementation(libs.logging.interceptor)
     testImplementation(libs.junit)
