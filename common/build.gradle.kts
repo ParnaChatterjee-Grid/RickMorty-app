@@ -1,12 +1,10 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.apollo)
-    alias(libs.plugins.ksp)
 }
 
 android {
-    namespace = "com.example.data"
+    namespace = "com.example.common"
     compileSdk = 34
 
     defaultConfig {
@@ -39,23 +37,7 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
-    implementation(libs.apollo.runtime)
-    implementation(libs.transport.runtime)
-    implementation(libs.dagger)
-    implementation(project(":domain"))
-    implementation(project(":common"))
-    ksp(libs.dagger.compiler)
-    implementation(libs.logging.interceptor)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-}
-apollo {
-    service("GraphQl") {
-        packageName.set("com.example.data")
-        introspection {
-            endpointUrl.set("https://rickandmortyapi.com/graphql")
-            schemaFile.set(file("src/main/graphql/schema.graphqls"))
-        }
-    }
 }
