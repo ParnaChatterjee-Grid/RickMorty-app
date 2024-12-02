@@ -55,8 +55,6 @@ dependencies {
     implementation(libs.dagger)
     implementation(libs.material)
     implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.constraintlayout)
-    implementation(libs.androidx.navigation.ui.ktx)
     ksp(libs.dagger.compiler)
     implementation(libs.apollo.runtime)
     testImplementation(libs.junit)
