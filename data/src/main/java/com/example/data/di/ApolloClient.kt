@@ -11,7 +11,6 @@ import javax.inject.Singleton
 
 @Module
 object ApolloClient{
-
     @Provides
     @Singleton
     fun provideApolloClient(httpClient : OkHttpClient): ApolloClient {
@@ -30,4 +29,3 @@ object ApolloClient{
         ).build()
     }
 }
-
