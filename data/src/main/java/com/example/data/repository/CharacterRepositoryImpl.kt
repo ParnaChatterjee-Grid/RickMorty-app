@@ -43,9 +43,3 @@ class CharacterRepositoryImpl @Inject constructor(private val apolloClient: Apol
         }
     }
 }
-
-
-
-
-
-

@@ -2,6 +2,7 @@ package com.example.data.di
 
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.network.okHttpClient
+import com.example.data.RickMortConstants
 import dagger.Module
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -11,7 +12,7 @@ object ApolloClient{
     @dagger.Provides
     @javax.inject.Singleton
     fun provideApolloClient(httpClient : OkHttpClient): ApolloClient {
-        return ApolloClient.Builder().serverUrl(com.example.data.RickMortConstants.RICK_MORTY_URL)
+        return ApolloClient.Builder().serverUrl(RickMortConstants.RICK_MORTY_URL)
             .okHttpClient(httpClient)
             .build()
     }

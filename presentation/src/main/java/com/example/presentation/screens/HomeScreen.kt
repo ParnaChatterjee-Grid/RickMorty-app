@@ -1,12 +1,16 @@
 package com.example.presentation.screens
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
@@ -14,10 +18,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.example.common.ResultState
@@ -29,60 +36,64 @@ import com.example.presentation.viewmodels.CharacterViewModel
 @Composable
 fun CharacterListScreen(viewModel: CharacterViewModel) {
     val characterState by viewModel.charactersState.collectAsStateWithLifecycle()
+    remember { characterState }
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp),
+            .padding(dimensionResource(R.dimen.character_list_grid_padding)),
         verticalArrangement = Arrangement.SpaceBetween
     ) {
-        Text(
-            text = stringResource(R.string.rick_morty_app),
-            style = MaterialTheme.typography.headlineSmall,
+        Box(
             modifier = Modifier
-                .padding(8.dp)
-                .align(Alignment.CenterHorizontally)
-
+                .fillMaxWidth()
+                .height(dimensionResource(R.dimen.app_bar_height))
+                .background(colorResource(id = R.color.topbar_box))
         )
-        when (val state = characterState) {
-            is ResultState.Loading -> {
-                CircularProgressIndicator(Modifier.align(Alignment.CenterHorizontally))
-            }
-            is ResultState.Success -> {
-                SetCharactersList(state.data.requireNoNulls())
-            }
-            is ResultState.Error ->{
-                state.exception.localizedMessage?.let {
-                    Text(
-                        text = it,
-                        color = MaterialTheme.colorScheme.error,
-                        modifier = Modifier
-                    )
+        {
+            Text(
+                text = stringResource(R.string.rick_morty_app),
+                style = MaterialTheme.typography.headlineSmall,
+                modifier = Modifier
+                    .align(Alignment.Center)
+            )
+        }
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(colorResource(id = R.color.white))
+        )
+        {
+            when (val state = characterState) {
+                is ResultState.Loading -> {
+                    CircularProgressIndicator(Modifier.align(Alignment.Center))
+                }
+
+                is ResultState.Success -> {
+                    SetCharactersList(state.data.requireNoNulls())
+                }
+
+                is ResultState.Error -> {
+                    state.exception.localizedMessage?.let {
+                        Text(
+                            text = it,
+                            color = MaterialTheme.colorScheme.error,
+                            modifier = Modifier
+                        )
+                    }
                 }
             }
-
-            else -> {
-                Text(
-                    text = " No data found ",
-                    color = MaterialTheme.colorScheme.error,
-                    modifier = Modifier
-                )
-            }
         }
-
-
-
-
     }
 }
 
 @Composable
-private fun SetCharactersList(characterList: kotlin.collections.List<com.example.domain.models.Characters>) {
+private fun SetCharactersList(characterList: List<Characters>) {
     LazyVerticalGrid(
-        columns = androidx.compose.foundation.lazy.grid.GridCells.Fixed(2),
+        columns = GridCells.Fixed(2),
         modifier = Modifier.fillMaxWidth(),
-        contentPadding = androidx.compose.foundation.layout.PaddingValues(all = 16.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        contentPadding = PaddingValues(all = dimensionResource(R.dimen.character_list_grid_padding)),
+        horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.character_list_grid_padding)),
+        verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.character_list_grid_padding))
     ) {
         items(characterList.size, key = { characterList[it].id }) { index ->
             SetCharacterItem(character = characterList[index])
@@ -95,7 +106,7 @@ private fun SetCharacterItem(character: Characters) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp)
+            .padding(dimensionResource(R.dimen.character_list_grid_padding))
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
             AsyncImage(
@@ -108,13 +119,12 @@ private fun SetCharacterItem(character: Characters) {
             Text(
                 text = character.name,
                 modifier = Modifier
-                    .padding(8.dp)
-                    .align(androidx.compose.ui.Alignment.BottomCenter),
-                color = androidx.compose.ui.graphics.Color.White,
+                    .padding(dimensionResource(R.dimen.character_list_grid_padding))
+                    .align(Alignment.BottomCenter),
+                color = Color.White,
                 fontSize = MaterialTheme.typography.headlineMedium.fontSize
             )
         }
     }
 
 }
-

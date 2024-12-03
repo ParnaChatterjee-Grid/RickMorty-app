@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="app_bar_height">60dp</dimen>
+    <dimen name="progress_bar_size">100dp</dimen>
+    <dimen name="character_list_grid_padding">8dp</dimen>
+    <dimen name="character_list_grid_spacing">20dp</dimen>
+    <dimen name="character_list_item_padding">8dp</dimen>
+    <dimen name="character_details_image_height">400dp</dimen>
+    <dimen name="character_details_status_padding">5dp</dimen>
+</resources>

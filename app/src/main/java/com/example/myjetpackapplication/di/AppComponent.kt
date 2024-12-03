@@ -2,6 +2,9 @@ package com.example.myjetpackapplication.di
 
 
 
+import com.example.data.di.ApolloClient
+import com.example.data.di.DispatchersModule
+import com.example.data.module.DataModule
 import com.example.myjetpackapplication.MainActivity
 import dagger.Component
 import javax.inject.Singleton
@@ -9,7 +12,7 @@ import javax.inject.Singleton
 @Singleton
 @Component(
     modules = [
-               com.example.data.di.ApolloClient::class, com.example.data.module.DataModule::class
+               ApolloClient::class, DataModule::class,DispatchersModule::class
     ]
 )
 

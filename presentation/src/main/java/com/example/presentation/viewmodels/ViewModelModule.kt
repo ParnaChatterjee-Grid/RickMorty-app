@@ -1,18 +1,19 @@
 package com.example.presentation.viewmodels
 
+import com.example.data.di.IoDispatcher
 import com.example.domain.usecases.GetCharactersUsecase
-import com.example.presentation.viewmodels.ViewModelfactory
-//import com.example.presentation.viewmodels.ViewModelFactory
 import dagger.Module
 import dagger.Provides
+import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Singleton
 
 @Module
 class ViewModelModule{
     @Provides
     @Singleton
-
-    fun provideViewModelFactory(getCharactersUsecase : GetCharactersUsecase): ViewModelfactory {
-        return ViewModelfactory(getCharactersUsecase)
+    fun provideViewModelFactory(getCharactersUsecase : GetCharactersUsecase,
+                                @IoDispatcher coroutineDispatcher: CoroutineDispatcher
+    ): ViewModelfactory {
+        return ViewModelfactory(getCharactersUsecase,coroutineDispatcher)
     }
 }
