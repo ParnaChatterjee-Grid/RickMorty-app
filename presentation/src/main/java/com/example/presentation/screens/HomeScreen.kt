@@ -22,14 +22,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.example.common.ResultState
 import com.example.domain.models.Characters
 import com.example.presentation.R
+import com.example.presentation.themes.color
+import com.example.presentation.themes.dimens
 import com.example.presentation.viewmodels.CharacterViewModel
 
 
@@ -40,14 +40,14 @@ fun CharacterListScreen(viewModel: CharacterViewModel) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(dimensionResource(R.dimen.character_list_grid_padding)),
+            .padding(MaterialTheme.dimens.smallPadding),
         verticalArrangement = Arrangement.SpaceBetween
     ) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(dimensionResource(R.dimen.app_bar_height))
-                .background(colorResource(id = R.color.topbar_box))
+                .height(MaterialTheme.dimens.app_bar_height)
+                .background(MaterialTheme.color.topbar_box)
         )
         {
             Text(
@@ -60,7 +60,7 @@ fun CharacterListScreen(viewModel: CharacterViewModel) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(colorResource(id = R.color.white))
+                .background(MaterialTheme.color.white)
         )
         {
             when (val state = characterState) {
@@ -76,7 +76,7 @@ fun CharacterListScreen(viewModel: CharacterViewModel) {
                     state.exception.localizedMessage?.let {
                         Text(
                             text = it,
-                            color = MaterialTheme.colorScheme.error,
+                           // color = MaterialTheme.colorScheme.error,
                             modifier = Modifier
                         )
                     }
@@ -91,9 +91,9 @@ private fun SetCharactersList(characterList: List<Characters>) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         modifier = Modifier.fillMaxWidth(),
-        contentPadding = PaddingValues(all = dimensionResource(R.dimen.character_list_grid_padding)),
-        horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.character_list_grid_padding)),
-        verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.character_list_grid_padding))
+        contentPadding = PaddingValues(all = MaterialTheme.dimens.smallPadding),
+        horizontalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.smallPadding),
+        verticalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.smallPadding)
     ) {
         items(characterList.size, key = { characterList[it].id }) { index ->
             SetCharacterItem(character = characterList[index])
@@ -106,7 +106,7 @@ private fun SetCharacterItem(character: Characters) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(dimensionResource(R.dimen.character_list_grid_padding))
+            .padding(MaterialTheme.dimens.smallPadding)
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
             AsyncImage(
@@ -119,7 +119,7 @@ private fun SetCharacterItem(character: Characters) {
             Text(
                 text = character.name,
                 modifier = Modifier
-                    .padding(dimensionResource(R.dimen.character_list_grid_padding))
+                    .padding(MaterialTheme.dimens.smallPadding)
                     .align(Alignment.BottomCenter),
                 color = Color.White,
                 fontSize = MaterialTheme.typography.headlineMedium.fontSize
