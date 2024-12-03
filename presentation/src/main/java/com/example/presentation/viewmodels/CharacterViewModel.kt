@@ -16,7 +16,7 @@ import java.util.concurrent.TimeoutException
 import javax.inject.Inject
 
 class CharacterViewModel @Inject constructor(private val getCharactersUseCase : GetCharactersUsecase,
-                                             @IoDispatcher private val Iodispatcher : CoroutineDispatcher
+                                             @IoDispatcher private val iodispatcher : CoroutineDispatcher
 ) :ViewModel(){
     private val _charactersState =
         MutableStateFlow<ResultState<List<Characters?>>>(ResultState.Loading)
@@ -29,19 +29,15 @@ class CharacterViewModel @Inject constructor(private val getCharactersUseCase : 
 
     private fun getAllCharacters() {
         _charactersState.value = ResultState.Loading
-        viewModelScope.launch(Iodispatcher) {
+        viewModelScope.launch(iodispatcher) {
             try {
                 val result = getCharactersUseCase.invoke()
                 _charactersState.emit(ResultState.Success(result))// Emit the updated list
             } catch (ex: ApolloException) {
                 _charactersState.emit(ResultState.Error(exception = ex))
-
             }catch (ex: IOException){
                 _charactersState.emit(ResultState.Error(exception = ex))
             }catch (ex: TimeoutException){
-                _charactersState.emit(ResultState.Error(exception = ex))
-            }
-            catch ( ex: RuntimeException){
                 _charactersState.emit(ResultState.Error(exception = ex))
             }
         }
