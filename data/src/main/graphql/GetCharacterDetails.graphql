@@ -1,0 +1,30 @@
+
+# Query 2: Get a specific user by ID
+query GetCharacterById($id: ID!) {
+    character(id: $id) {
+        id
+        name
+        image
+        gender
+        species
+        status
+        origin {
+            id
+            type
+            name
+            dimension
+        }
+        location {
+            id
+            name
+            dimension
+        }
+        episode {
+            id
+            name
+            air_date
+            episode
+
+        }
+    }
+}
