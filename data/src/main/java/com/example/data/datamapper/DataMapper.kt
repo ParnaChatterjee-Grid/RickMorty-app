@@ -33,11 +33,11 @@ fun getCharacterDetailsToCharacterDetails(results: GetCharacterByIdQuery.Charact
     }
 }
 
-fun getLocations(location: GetCharacterByIdQuery.Location): Locations? {
+private fun getLocations(location: GetCharacterByIdQuery.Location): Locations? {
     return location.id?.let { Locations(it,location.name, location.dimension) }
 }
 
-fun getEpisodes(episodes: List<GetCharacterByIdQuery.Episode>): List<Episode> {
+private fun getEpisodes(episodes: List<GetCharacterByIdQuery.Episode>): List<Episode> {
 
         var episodeslist = mutableListOf<Episode>()
         for(episode in episodes) {
@@ -57,7 +57,7 @@ fun getEpisodes(episodes: List<GetCharacterByIdQuery.Episode>): List<Episode> {
     }
 
 
-fun getOrigin(origin: GetCharacterByIdQuery.Origin):Origins{
+private fun getOrigin(origin: GetCharacterByIdQuery.Origin):Origins{
     return Origins(
         id = origin.id,
         type = origin.type,
