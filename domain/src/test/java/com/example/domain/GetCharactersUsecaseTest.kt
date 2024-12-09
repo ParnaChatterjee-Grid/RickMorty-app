@@ -18,20 +18,20 @@ import org.junit.Test
 
 @ExperimentalCoroutinesApi
 class GetCharactersUsecaseTest {
-    private lateinit var SUT : GetCharactersUsecase
+    private lateinit var sut : GetCharactersUsecase
     private val repository = mockk<CharacterRepository>(relaxed = true)
     private val testDispatcher = StandardTestDispatcher()
     @Before
     fun setup(){
         Dispatchers.setMain(testDispatcher)
-        SUT = GetCharactersUsecase(repository)
+        sut = GetCharactersUsecase(repository)
     }
 
     @Test
     fun `should return list of Characters when repository returns data`()= runTest(testDispatcher) {
         val expectedResult = getCharacters()
       coEvery { repository.getCharacters() } returns expectedResult
-        val testCaseCharacters = SUT.invoke()
+        val testCaseCharacters = sut.invoke()
         assertEquals(expectedResult,testCaseCharacters)
     }
 
@@ -40,7 +40,7 @@ class GetCharactersUsecaseTest {
         val exception = RuntimeException("Error fetching character results")
         coEvery { repository.getCharacters() } throws exception
         try {
-            val result = SUT.invoke()
+            val result = sut.invoke()
         }
         catch( e :RuntimeException)  {
             assertEquals("java.lang.RuntimeException: Error fetching character results", ""+e)
@@ -53,7 +53,7 @@ class GetCharactersUsecaseTest {
         val emptyList = emptyList<Characters>()
         // Mocking the suspending function using coEvery
         coEvery { repository.getCharacters() } returns emptyList
-        val result = SUT.invoke()
+        val result = sut.invoke()
         assertEquals(emptyList, result)
     }
 
@@ -63,9 +63,9 @@ class GetCharactersUsecaseTest {
     }
 
     fun getCharacters():List<Characters>{
-        val CharactersList = listOf(Characters("101","aaa","1.jpg"),
-            Characters("202","bbb","2.jpg"),
-            Characters("303","ccc","3.jpg"))
-        return CharactersList
+        val charactersList = listOf(Characters("1","aaa","1.jpg"),
+            Characters("2","bbb","2.jpg"),
+            Characters("3","ccc","3.jpg"))
+        return charactersList
     }
 }

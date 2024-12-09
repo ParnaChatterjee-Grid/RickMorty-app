@@ -25,7 +25,7 @@ import org.junit.Test
 
 @ExperimentalCoroutinesApi
 class CharacterViewModelTest {
-    private lateinit var SUT: CharacterViewModel
+    private lateinit var sut: CharacterViewModel
     private  lateinit var charactersUseCase: GetCharactersUsecase
     private val testDispatcher = StandardTestDispatcher()
 
@@ -33,12 +33,12 @@ class CharacterViewModelTest {
     fun setUp(){
         Dispatchers.setMain(testDispatcher)
         charactersUseCase = mockk<GetCharactersUsecase>(relaxed = true)
-        SUT = CharacterViewModel(charactersUseCase,testDispatcher)
+        sut = CharacterViewModel(charactersUseCase,testDispatcher)
     }
     @Test
     fun `should return charactersState is in loading state when loading characters`() =
         runTest(testDispatcher){
-           val currentState =  SUT.charactersState.value
+           val currentState =  sut.charactersState.value
             assertEquals(ResultState.Loading,currentState)
 
     }
@@ -47,10 +47,10 @@ class CharacterViewModelTest {
     fun `get list of characters on success`() = runTest(testDispatcher) {
         val characters = getCharacters()
         coEvery { charactersUseCase.invoke() } returns characters
-        SUT.getAllCharacters()
-        val currentState =  SUT.charactersState.value
+        sut.getAllCharacters()
+        val currentState =  sut.charactersState.value
         assertEquals(ResultState.Loading,currentState)
-        SUT.charactersState.test {
+        sut.charactersState.test {
             assertTrue(awaitItem() is ResultState)
             val successState = awaitItem()
             assertThat(successState).isInstanceOf(ResultState.Success::class.java)
@@ -65,7 +65,7 @@ class CharacterViewModelTest {
         val repository = mockk<CharacterRepository>(relaxed = true)
         coEvery { repository.getCharacters() } throws exception
         try {
-            SUT.getAllCharacters()
+            sut.getAllCharacters()
         }
         catch (e :RuntimeException){
             assertEquals("Error fetching character results", ""+e)
@@ -77,9 +77,9 @@ class CharacterViewModelTest {
     }
 
     fun getCharacters():List<Characters>{
-        val CharactersList = listOf(Characters("101","aaa","https://rickandmortyapi.com/api/character/avatar/1.jpeg"),
-            Characters("202","bbb","https://rickandmortyapi.com/api/character/avatar/2.jpeg"),
-            Characters("303","ccc","https://rickandmortyapi.com/api/character/avatar/3.jpeg"))
-        return CharactersList
+        val charactersList = listOf(Characters("a","RickSanchez","https://rickandmortyapi.com/avatar/1.jpeg"),
+            Characters("b","MortySmith","https://rickandmortyapi.com/avatar/2.jpeg"),
+            Characters("c","SummerSmith","https://rickandmortyapi.com/avatar/3.jpeg"))
+        return charactersList
     }
 }
