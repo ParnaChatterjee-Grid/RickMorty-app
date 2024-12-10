@@ -10,13 +10,13 @@ import com.apollographql.apollo.exception.DefaultApolloException
 import com.example.common.CustomExceptions
 import com.example.data.GetAllCharactersQuery
 import com.example.data.datamapper.getCharactersQueryToCharacterModel
-import com.example.domain.models.Character
+import com.example.domain.models.Characters
 import com.example.domain.repository.CharacterRepository
 import javax.inject.Inject
 
 class CharacterRepositoryImpl @Inject constructor(private val apolloClient: ApolloClient):
     CharacterRepository {
-    override suspend fun getCharacters(): List<Character?> {
+    override suspend fun getCharacters(): List<Characters?> {
         return try {
             val response = apolloClient.query(GetAllCharactersQuery()).execute()
             val results = response.data?.characters?.results?.map {
@@ -40,8 +40,6 @@ class CharacterRepositoryImpl @Inject constructor(private val apolloClient: Apol
                 }
 
             }
-
         }
     }
 }
-
