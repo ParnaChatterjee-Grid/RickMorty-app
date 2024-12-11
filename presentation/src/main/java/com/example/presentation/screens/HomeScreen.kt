@@ -1,6 +1,7 @@
 package com.example.presentation.screens
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,17 +25,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.example.common.ResultState
 import com.example.domain.models.Characters
 import com.example.presentation.R
+import com.example.presentation.navigation.RMScreenRoutes
 import com.example.presentation.themes.color
 import com.example.presentation.themes.dimens
 import com.example.presentation.viewmodels.CharacterViewModel
 
 
 @Composable
-fun CharacterListScreen(viewModel: CharacterViewModel) {
+fun CharacterListScreen(
+    viewModel: CharacterViewModel,
+    navController: NavHostController
+) {
     val characterState by viewModel.charactersState.collectAsStateWithLifecycle()
     remember { characterState }
     Column(
@@ -69,14 +75,14 @@ fun CharacterListScreen(viewModel: CharacterViewModel) {
                 }
 
                 is ResultState.Success -> {
-                    SetCharactersList(state.data.requireNoNulls())
+                    SetCharactersList(state.data.requireNoNulls(),navController)
                 }
 
                 is ResultState.Error -> {
                     state.exception.localizedMessage?.let {
                         Text(
                             text = it,
-                           // color = MaterialTheme.colorScheme.error,
+                            color = MaterialTheme.colorScheme.error,
                             modifier = Modifier
                         )
                     }
@@ -87,7 +93,7 @@ fun CharacterListScreen(viewModel: CharacterViewModel) {
 }
 
 @Composable
-private fun SetCharactersList(characterList: List<Characters>) {
+private fun SetCharactersList(characterList: List<Characters>, navController: NavHostController) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         modifier = Modifier.fillMaxWidth(),
@@ -96,17 +102,18 @@ private fun SetCharactersList(characterList: List<Characters>) {
         verticalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.smallPadding)
     ) {
         items(characterList.size, key = { characterList[it].id }) { index ->
-            SetCharacterItem(character = characterList[index])
+            SetCharacterItem(character = characterList[index],navController)
         }
     }
 }
 
 @Composable
-private fun SetCharacterItem(character: Characters) {
+private fun SetCharacterItem(character: Characters, navController: NavHostController) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(MaterialTheme.dimens.smallPadding)
+            .clickable { navController.navigate(RMScreenRoutes.characterDetailScreen+"/${character.id}") }
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
             AsyncImage(
