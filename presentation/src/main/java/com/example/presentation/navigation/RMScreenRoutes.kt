@@ -4,3 +4,4 @@ object RMScreenRoutes {
  var homeScreen = "HomeScreen"
  var characterDetailScreen = "CharacterDetailScreen"
 }
+

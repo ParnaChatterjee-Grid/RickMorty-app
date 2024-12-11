@@ -20,14 +20,9 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MyJetpackApplicationTheme {
-                var Viewmodelprovider =ViewModelProvider(LocalContext.current as ComponentActivity,
+                var viewmodelprovider =ViewModelProvider(LocalContext.current as ComponentActivity,
                     viewModelFactoryProvider)
-
-                /*val characterViewModel: CharacterViewModel =
-                ViewModelProvider(LocalContext.current as ComponentActivity,
-                    viewModelFactoryProvider)[CharacterViewModel::class.java]*/
-                //CharacterListScreen(characterViewModel)
-                RMNavGraph(Viewmodelprovider)
+                RMNavGraph(viewmodelprovider)
             }
         }
     }

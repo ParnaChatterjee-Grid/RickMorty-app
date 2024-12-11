@@ -1,4 +1,4 @@
-package com.example.presentation
+package com.example.presentation.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -29,11 +29,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign.Companion.Center
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.example.common.ResultState
 import com.example.domain.models.CharacterDetails
 import com.example.domain.models.Episode
+import com.example.domain.models.Locations
+import com.example.domain.models.Origins
+import com.example.presentation.R
 import com.example.presentation.themes.color
 import com.example.presentation.themes.dimens
 import com.example.presentation.viewmodels.CharacterDetailsViewModel
@@ -41,8 +43,7 @@ import com.example.presentation.viewmodels.CharacterDetailsViewModel
 @Composable
 fun CharacterDetailScreen(
     viewModel: CharacterDetailsViewModel,
-    id: String,
-    navController: NavHostController
+    id: String
 )
 {
    LaunchedEffect(id)
@@ -50,12 +51,12 @@ fun CharacterDetailScreen(
      viewModel.getCharacterDetails(id)
    }
     //viewModel.getCharacterDetails(id)
-    android.util.Log.d("CharacterDetail","id"+id)
+   // android.util.Log.d("CharacterDetail","id"+id)
     val characterState = viewModel.charactersState.collectAsStateWithLifecycle()
-    CharacterDetails(characterState,id)
+    CharacterDetails(characterState)
 }
 @Composable
-private fun CharacterDetails(characterState: State<ResultState<CharacterDetails?>>, id: String){
+private fun CharacterDetails(characterState: State<ResultState<CharacterDetails?>>){
    Column(
        modifier = Modifier.fillMaxWidth(1f)
            .padding(MaterialTheme.dimens.smallPadding),
@@ -87,8 +88,8 @@ private fun CharacterDetails(characterState: State<ResultState<CharacterDetails?
 }
 
 @Composable
-private fun ShowCharacterDetails(data: CharacterDetails?) {
-    //for topbar
+private fun ShowCharacterDetails(data: CharacterDetails?)
+{//for topbar
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -107,10 +108,7 @@ private fun ShowCharacterDetails(data: CharacterDetails?) {
                 color = MaterialTheme.color.black,
                 modifier = Modifier.align(Alignment.Center)
             )
-        }
-
-
-        //for Character Image and details
+        }//for Character Image and details
         Column(Modifier.verticalScroll(rememberScrollState()))
         {
             if (data != null) {
@@ -123,193 +121,204 @@ private fun ShowCharacterDetails(data: CharacterDetails?) {
 
                 )
             }
-            Spacer(Modifier.padding(top = MaterialTheme.dimens.largePadding))
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(MaterialTheme.color.white)
-                    .padding(MaterialTheme.dimens.mediumPadding)
-            ) {
-                if (data != null) {
-                    Text(
-                        text = data.name,
-                        style = MaterialTheme.typography.headlineMedium,
-                        color = MaterialTheme.color.black,
-                        modifier = Modifier.padding(
-                            bottom = MaterialTheme.dimens.smallPadding
-                        )
-                    )
-                }
-            }
-            //status
-            Row(
-                modifier = Modifier.padding(
-                    bottom = MaterialTheme.dimens.smallPadding
-                )
-            ) {
-                Text(
-                    text = stringResource(R.string.status),
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.color.black
-                )
-                Text(
-                    text = data?.status.orEmpty().uppercase(),
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.color.purple_700
-                )
-            }
-
-
-            //Species
-            Row(
-                modifier = Modifier.padding(
-                    bottom = MaterialTheme.dimens.smallPadding
-                )
-            ) {
-                Text(
-                    text = stringResource(R.string.species),
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.color.black
-                )
-                Text(
-                    text = data?.species.orEmpty().uppercase(),
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.color.purple_700
-                )
-            }
-
-            //Gender
-            Row(
-                modifier = Modifier.padding(
-                    bottom = MaterialTheme.dimens.smallPadding
-                )
-            ) {
-                Text(
-                    text = stringResource(R.string.gender),
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.color.black
-                )
-                Text(
-                    text = data?.gender.orEmpty().uppercase(),
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.color.purple_700
-                )
-            }
-            //Origin
-            Row(
-                modifier = Modifier.padding(
-                    bottom = MaterialTheme.dimens.smallPadding,
-                    top = MaterialTheme.dimens.mediumPadding
-                )
-            ) {
-                Text(
-                    text = stringResource(R.string.origin),
-                    style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.color.black
-                )
-            }
-            Row(
-                modifier = Modifier.padding(
-                    bottom = MaterialTheme.dimens.smallPadding
-                )
-            ) {
-                Text(
-                    text = stringResource(R.string.origin_name),
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.color.black
-                )
-                Text(
-                    text = data?.origin?.name.orEmpty().uppercase(),
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.color.purple_700
-                )
-            }
-
-            Row(
-                modifier = Modifier.padding(
-                    bottom = MaterialTheme.dimens.smallPadding
-                )
-            ) {
-                Text(
-                    text = stringResource(R.string.origin_dimension),
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.color.black
-                )
-                Text(
-                    text = data?.origin?.dimension.orEmpty().uppercase(),
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.color.purple_700
-                )
-            }
-
-            //Location
-            Row(
-                modifier = Modifier.padding(
-                    bottom = MaterialTheme.dimens.smallPadding,
-                    top = MaterialTheme.dimens.mediumPadding
-                )
-            ) {
-                Text(
-                    text = stringResource(R.string.location),
-                    style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.color.black
-                )
-            }
-            Row(
-                modifier = Modifier.padding(
-                    bottom = MaterialTheme.dimens.smallPadding
-                )
-            ) {
-                Text(
-                    text = stringResource(R.string.location_name),
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.color.black
-                )
-                Text(
-                    text = data?.locations?.name.orEmpty().uppercase(),
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.color.purple_700
-                )
-            }
-
-            Row(
-                modifier = Modifier.padding(
-                    bottom = MaterialTheme.dimens.smallPadding
-                )
-            ) {
-                Text(
-                    text = stringResource(R.string.origin_dimension),
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.color.black
-                )
-                Text(
-                    text = data?.locations?.dimension.orEmpty().uppercase(),
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.color.purple_700
-                )
-            }
-            DisplayEpisodes(data?.episodes)
-            
+            data?.let { DisplayStatus(it) }
+            data?.let { DisplaySpices(it) }
+            data?.origin?.let { DisplayOrigin(it) }
+            data?.locations?.let { DisplayLocation(it) }
+                DisplayEpisodes(data?.episodes)
         }
     }
 }
-
 @Composable
-fun DisplayEpisodes(episodes: List<Episode>?) {
+fun DisplayStatus(data:CharacterDetails){
+    Spacer(Modifier.padding(top = MaterialTheme.dimens.largePadding))
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(MaterialTheme.color.white)
+            .padding(MaterialTheme.dimens.mediumPadding)
+    ) {
+        if (data != null) {
+            Text(
+                text = data.name,
+                style = MaterialTheme.typography.headlineMedium,
+                color = MaterialTheme.color.black,
+                modifier = Modifier.padding(
+                    bottom = MaterialTheme.dimens.smallPadding
+                )
+            )
+        }
+    }
+    //status
+    Row(
+        modifier = Modifier.padding(
+            bottom = MaterialTheme.dimens.smallPadding
+        )
+    ) {
+        Text(
+            text = stringResource(R.string.status),
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.color.black
+        )
+        Text(
+            text = data?.status.orEmpty().uppercase(),
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.color.purple_700
+        )
+    }
+
+}
+@Composable
+fun DisplaySpices(data:CharacterDetails){
+    //Species
+    Row(
+        modifier = Modifier.padding(
+            bottom = MaterialTheme.dimens.smallPadding
+        )
+    ) {
+        Text(
+            text = stringResource(R.string.species),
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.color.black
+        )
+        Text(
+            text = data?.species.orEmpty().uppercase(),
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.color.purple_700
+        )
+    }
+
+    //Gender
+    Row(
+        modifier = Modifier.padding(
+            bottom = MaterialTheme.dimens.smallPadding
+        )
+    ) {
+        Text(
+            text = stringResource(R.string.gender),
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.color.black
+        )
+        Text(
+            text = data?.gender.orEmpty().uppercase(),
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.color.purple_700
+        )
+    }
+}
+@Composable
+fun DisplayOrigin(origin:Origins){
+    Row(
+        modifier = Modifier.padding(
+            bottom = MaterialTheme.dimens.smallPadding,
+            top = MaterialTheme.dimens.mediumPadding
+        )
+    ) {
+        Text(
+            text = stringResource(R.string.origin),
+            style = MaterialTheme.typography.titleLarge,
+            color = MaterialTheme.color.black
+        )
+    }
+    Row(
+        modifier = Modifier.padding(
+            bottom = MaterialTheme.dimens.smallPadding
+        )
+    ) {
+        Text(
+            text = stringResource(R.string.origin_name),
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.color.black
+        )
+        Text(
+            text = origin?.name.orEmpty().uppercase(),
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.color.purple_700
+        )
+    }
+    Row(
+        modifier = Modifier.padding(
+            bottom = MaterialTheme.dimens.smallPadding
+        )
+    ) {
+        Text(
+            text = stringResource(R.string.origin_dimension),
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.color.black
+        )
+        Text(
+            text = origin?.dimension.orEmpty().uppercase(),
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.color.purple_700
+        )
+    }
+
+}
+@Composable
+fun DisplayLocation(data : Locations){
+    Row(
+        modifier = Modifier.padding(
+            bottom = MaterialTheme.dimens.smallPadding,
+            top = MaterialTheme.dimens.mediumPadding
+        )
+    ) {
+        Text(
+            text = stringResource(R.string.location),
+            style = MaterialTheme.typography.titleLarge,
+            color = MaterialTheme.color.black
+        )
+    }
+    Row(
+        modifier = Modifier.padding(
+            bottom = MaterialTheme.dimens.smallPadding
+        )
+    ) {
+        Text(
+            text = stringResource(R.string.location_name),
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.color.black
+        )
+        Text(
+            text = data?.name.orEmpty().uppercase(),
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.color.purple_700
+        )
+    }
+    Row(
+        modifier = Modifier.padding(
+            bottom = MaterialTheme.dimens.smallPadding
+        )
+    ) {
+        Text(
+            text = stringResource(R.string.location_dimension),
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.color.black
+        )
+        Text(
+            text = data?.dimension.orEmpty().uppercase(),
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.color.purple_700
+        )
+    }
+
+}
+@Composable
+fun DisplayEpisodes(episodes: List<Episode>?)
+{
     Row(
         modifier = Modifier.padding(
             bottom = MaterialTheme.dimens.smallPadding,
@@ -331,7 +340,7 @@ fun DisplayEpisodes(episodes: List<Episode>?) {
             items(
                 it
             ){
-                index -> EpisodesItem(episodes.get(index))
+                index -> EpisodesItem(episodes[index])
             }
         }
 
@@ -362,6 +371,8 @@ fun EpisodesItem(episode: Episode)
         }
     }
 }
+
+
 
 
 
