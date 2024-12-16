@@ -37,7 +37,8 @@ fun RMNavGraph(viewModelprovider: androidx.lifecycle.ViewModelProvider) {
               characterDetailViewModel.getCharacterDetails(characterDetails.characterId)
             id =  characterDetails.characterId
             if (characterDetails.characterId != null) {
-                CharacterDetailScreen(characterDetailViewModel, characterDetails.characterId)
+                CharacterDetailScreen(characterDetailViewModel, characterDetails.characterId,
+                    onBackButton = navController::navigateUp)
             }
         }
     }
