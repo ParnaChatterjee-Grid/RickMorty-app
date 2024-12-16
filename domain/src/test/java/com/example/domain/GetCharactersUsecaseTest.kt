@@ -5,33 +5,30 @@ import com.example.domain.repository.CharacterRepository
 import com.example.domain.usecases.GetCharactersUsecase
 import io.mockk.coEvery
 import io.mockk.mockk
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
-import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
-import kotlinx.coroutines.test.setMain
-import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 
 @ExperimentalCoroutinesApi
 class GetCharactersUsecaseTest {
-    private lateinit var sut : GetCharactersUsecase
+    private lateinit var getCharacterusecaseTest : GetCharactersUsecase
     private val repository = mockk<CharacterRepository>(relaxed = true)
     private val testDispatcher = StandardTestDispatcher()
     @Before
     fun setup(){
-        Dispatchers.setMain(testDispatcher)
-        sut = GetCharactersUsecase(repository)
+        getCharacterusecaseTest = GetCharactersUsecase(repository)
     }
 
     @Test
     fun `should return list of Characters when repository returns data`()= runTest(testDispatcher) {
-        val expectedResult = getCharacters()
+        val expectedResult = listOf(Characters("1","aaa","1.jpg"),
+            Characters("2","bbb","2.jpg"),
+            Characters("3","ccc","3.jpg"))
       coEvery { repository.getCharacters() } returns expectedResult
-        val testCaseCharacters = sut.invoke()
+        val testCaseCharacters = getCharacterusecaseTest.invoke()
         assertEquals(expectedResult,testCaseCharacters)
     }
 
@@ -40,12 +37,11 @@ class GetCharactersUsecaseTest {
         val exception = RuntimeException("Error fetching character results")
         coEvery { repository.getCharacters() } throws exception
         try {
-            val result = sut.invoke()
+            val result = getCharacterusecaseTest.invoke()
         }
         catch( e :RuntimeException)  {
             assertEquals("java.lang.RuntimeException: Error fetching character results", ""+e)
         }
-
     }
 
     @Test
@@ -53,19 +49,7 @@ class GetCharactersUsecaseTest {
         val emptyList = emptyList<Characters>()
         // Mocking the suspending function using coEvery
         coEvery { repository.getCharacters() } returns emptyList
-        val result = sut.invoke()
+        val result = getCharacterusecaseTest.invoke()
         assertEquals(emptyList, result)
-    }
-
-    @After
-    fun tearDown(){
-        Dispatchers.resetMain()
-    }
-
-    fun getCharacters():List<Characters>{
-        val charactersList = listOf(Characters("1","aaa","1.jpg"),
-            Characters("2","bbb","2.jpg"),
-            Characters("3","ccc","3.jpg"))
-        return charactersList
     }
 }
