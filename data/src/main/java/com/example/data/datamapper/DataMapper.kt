@@ -34,7 +34,7 @@ fun getCharacterDetailsToCharacterDetails(results: GetCharacterByIdQuery.Charact
 }
 
 private fun getLocations(location: GetCharacterByIdQuery.Location): Locations? {
-    return location.id?.let { Locations(it,location.name, location.dimension) }
+    return location.id?.let { Locations(it,location.name, location.dimension?:"UNKNOWN") }
 }
 
 private fun getEpisodes(episodes: List<GetCharacterByIdQuery.Episode>): List<Episode> {
@@ -59,8 +59,6 @@ private fun getEpisodes(episodes: List<GetCharacterByIdQuery.Episode>): List<Epi
 
 private fun getOrigin(origin: GetCharacterByIdQuery.Origin):Origins{
     return Origins(
-        id = origin.id,
-        type = origin.type,
         name = origin.name,
-        dimension = origin.dimension,
+        dimension = origin.dimension?:"UNKNOWN"
     )}

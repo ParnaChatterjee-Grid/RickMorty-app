@@ -22,11 +22,6 @@ class CharacterDetailsViewModel @Inject constructor(private val getCharacterDeta
         MutableStateFlow<ResultState<CharacterDetails?>>(ResultState.Loading)
     val charactersState: StateFlow<ResultState<CharacterDetails?>> = _charactersState
 
-   /* init{
-        getAllCharacters()
-    }*/
-
-
      fun getCharacterDetails(id:String) {
         _charactersState.value = ResultState.Loading
         viewModelScope.launch(iodispatcher) {

@@ -13,9 +13,7 @@ data class CharacterDetails(
 
 )
 data class Origins(
-    var id: String = "",
-    val type: String,
-    val name: String,
+    val name: String ,
     val dimension: String
 )
 

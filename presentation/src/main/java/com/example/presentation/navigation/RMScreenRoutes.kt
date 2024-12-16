@@ -1,7 +1,12 @@
 package com.example.presentation.navigation
+import kotlinx.serialization.Serializable
 
-object RMScreenRoutes {
- var homeScreen = "HomeScreen"
- var characterDetailScreen = "CharacterDetailScreen"
+sealed class RMScreenRoutes {
+ @Serializable
+ data object HomeScreen : RMScreenRoutes()
+
+ @Serializable
+ data class CharacterDetail(val characterId : String):RMScreenRoutes()
+
 }
 

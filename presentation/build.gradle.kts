@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.apollo)
     alias(libs.plugins.ksp)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.serialization.plugin)
 }
 
 android {
@@ -51,8 +52,10 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.compose.android)
     implementation(libs.androidx.material3.android)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.kotlinx.serialization.json)
     implementation(libs.androidx.foundation.layout.android)
     implementation(libs.androidx.foundation.layout.android)
+    implementation(libs.androidx.lifecycle.viewmodel)
     ksp(libs.dagger.compiler)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

@@ -25,12 +25,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.example.common.ResultState
 import com.example.domain.models.Characters
 import com.example.presentation.R
-import com.example.presentation.navigation.RMScreenRoutes
 import com.example.presentation.themes.color
 import com.example.presentation.themes.dimens
 import com.example.presentation.viewmodels.CharacterViewModel
@@ -39,7 +37,7 @@ import com.example.presentation.viewmodels.CharacterViewModel
 @Composable
 fun CharacterListScreen(
     viewModel: CharacterViewModel,
-    navController: NavHostController
+    onNavigateTo : (String) ->Unit
 ) {
     val characterState by viewModel.charactersState.collectAsStateWithLifecycle()
     remember { characterState }
@@ -75,7 +73,7 @@ fun CharacterListScreen(
                 }
 
                 is ResultState.Success -> {
-                    SetCharactersList(state.data.requireNoNulls(),navController)
+                    SetCharactersList(state.data.requireNoNulls(),onNavigateTo)
                 }
 
                 is ResultState.Error -> {
@@ -93,7 +91,8 @@ fun CharacterListScreen(
 }
 
 @Composable
-private fun SetCharactersList(characterList: List<Characters>, navController: NavHostController) {
+private fun SetCharactersList(characterList: List<Characters>,
+                              onNavigateTo :(String) -> Unit) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         modifier = Modifier.fillMaxWidth(),
@@ -102,19 +101,21 @@ private fun SetCharactersList(characterList: List<Characters>, navController: Na
         verticalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.smallPadding)
     ) {
         items(characterList.size, key = { characterList[it].id }) { index ->
-            SetCharacterItem(character = characterList[index],navController)
+            SetCharacterItem(character = characterList[index],onNavigateTo)
         }
     }
 }
 
 @Composable
-private fun SetCharacterItem(character: Characters, navController: NavHostController) {
+private fun SetCharacterItem(character: Characters, onNavigateTo :(String) -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(MaterialTheme.dimens.smallPadding)
-            .clickable { navController.navigate(RMScreenRoutes.characterDetailScreen+"/${character.id}") }
-    ) {
+            .clickable {
+                onNavigateTo(character.id)}
+    )
+     {
         Box(modifier = Modifier.fillMaxSize()) {
             AsyncImage(
                 model = character.image,
@@ -135,3 +136,5 @@ private fun SetCharacterItem(character: Characters, navController: NavHostContro
     }
 
 }
+
+

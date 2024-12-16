@@ -21,7 +21,6 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -43,22 +42,19 @@ import com.example.presentation.viewmodels.CharacterDetailsViewModel
 @Composable
 fun CharacterDetailScreen(
     viewModel: CharacterDetailsViewModel,
-    id: String
+    id: String,
+    modifier: Modifier = Modifier
 )
 {
-   LaunchedEffect(id)
-   {
-     viewModel.getCharacterDetails(id)
-   }
-    //viewModel.getCharacterDetails(id)
-   // android.util.Log.d("CharacterDetail","id"+id)
+    android.util.Log.d("CharacterDetail","id......  "+id)
     val characterState = viewModel.charactersState.collectAsStateWithLifecycle()
-    CharacterDetails(characterState)
+    CharacterDetails(characterState,modifier)
 }
 @Composable
-private fun CharacterDetails(characterState: State<ResultState<CharacterDetails?>>){
+private fun CharacterDetails(characterState: State<ResultState<CharacterDetails?>>,
+                             modifier: Modifier = Modifier){
    Column(
-       modifier = Modifier.fillMaxWidth(1f)
+       modifier.fillMaxWidth(1f)
            .padding(MaterialTheme.dimens.smallPadding),
        verticalArrangement = Arrangement.SpaceBetween
    ){
@@ -88,14 +84,14 @@ private fun CharacterDetails(characterState: State<ResultState<CharacterDetails?
 }
 
 @Composable
-private fun ShowCharacterDetails(data: CharacterDetails?)
+private fun ShowCharacterDetails(data: CharacterDetails?,
+                                 modifier: Modifier = Modifier)
 {//for topbar
     Column(
-        modifier = Modifier
-            .fillMaxWidth()
+        modifier.fillMaxWidth()
     ) {
         Box(
-            modifier = Modifier
+              modifier = Modifier
                 .fillMaxWidth()
                 .height(MaterialTheme.dimens.app_bar_height)
                 .align(Alignment.CenterHorizontally)
@@ -115,8 +111,7 @@ private fun ShowCharacterDetails(data: CharacterDetails?)
                 AsyncImage(
                     model = data.image,
                     contentDescription = data.name,
-                    modifier = Modifier
-                        .fillMaxSize()
+                    modifier = Modifier.fillMaxSize()
                         .aspectRatio(1f)
 
                 )
@@ -130,8 +125,9 @@ private fun ShowCharacterDetails(data: CharacterDetails?)
     }
 }
 @Composable
-fun DisplayStatus(data:CharacterDetails){
-    Column() {
+private fun DisplayStatus(data:CharacterDetails,
+                  modifier: Modifier = Modifier){
+    Column(modifier.fillMaxWidth()) {
         Spacer(Modifier.padding(top = MaterialTheme.dimens.largePadding))
         Box(
             modifier = Modifier
@@ -151,79 +147,30 @@ fun DisplayStatus(data:CharacterDetails){
             }
         }
         //status
-        Row(
-            modifier = Modifier.padding(
-                bottom = MaterialTheme.dimens.smallPadding
-            )
-        ) {
-            Text(
-                text = stringResource(R.string.status),
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.color.black
-            )
-            Text(
-                text = data?.status.orEmpty().uppercase(),
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.color.purple_700
-            )
-        }
+        SetTitleContent(R.string.status,data?.status)
     }
 
 }
 @Composable
-fun DisplaySpices(data:CharacterDetails){
-    Column() {
+private fun DisplaySpices(data:CharacterDetails,
+                  modifier: Modifier = Modifier){
+    Column(modifier.fillMaxWidth()) {
         //Species
-        Row(
-            modifier = Modifier.padding(
-                bottom = MaterialTheme.dimens.smallPadding
-            )
-        ) {
-            Text(
-                text = stringResource(R.string.species),
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.color.black
-            )
-            Text(
-                text = data?.species.orEmpty().uppercase(),
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.color.purple_700
-            )
-        }
-
+        SetTitleContent(R.string.species,data?.species)
         //Gender
-        Row(
-            modifier = Modifier.padding(
-                bottom = MaterialTheme.dimens.smallPadding
-            )
-        ) {
-            Text(
-                text = stringResource(R.string.gender),
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.color.black
-            )
-            Text(
-                text = data?.gender.orEmpty().uppercase(),
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.color.purple_700
-            )
-        }
+        SetTitleContent(R.string.gender,data?.gender)
     }
 }
 @Composable
-fun DisplayOrigin(origin:Origins){
-    Column()
+private fun DisplayOrigin(origin:Origins,
+                  modifier: Modifier = Modifier){
+    Column(modifier.fillMaxWidth())
     {
         Row(
             modifier = Modifier.padding(
                 bottom = MaterialTheme.dimens.smallPadding,
-                top = MaterialTheme.dimens.mediumPadding
+                top = MaterialTheme.dimens.mediumPadding,
+                start =  MaterialTheme.dimens.mediumPadding
             )
         ) {
             Text(
@@ -232,52 +179,20 @@ fun DisplayOrigin(origin:Origins){
                 color = MaterialTheme.color.black
             )
         }
-        Row(
-            modifier = Modifier.padding(
-                bottom = MaterialTheme.dimens.smallPadding
-            )
-        ) {
-            Text(
-                text = stringResource(R.string.origin_name),
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.color.black
-            )
-            Text(
-                text = origin?.name.orEmpty().uppercase(),
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.color.purple_700
-            )
-        }
-        Row(
-            modifier = Modifier.padding(
-                bottom = MaterialTheme.dimens.smallPadding
-            )
-        ) {
-            Text(
-                text = stringResource(R.string.origin_dimension),
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.color.black
-            )
-            Text(
-                text = origin?.dimension.orEmpty().uppercase(),
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.color.purple_700
-            )
-        }
+        SetTitleContent(R.string.origin_name,origin.name)
+        SetTitleContent(R.string.origin_dimension,origin.dimension)
     }
 }
 @Composable
-fun DisplayLocation(data : Locations){
-    Column()
+private fun DisplayLocation(data : Locations,
+                    modifier: Modifier = Modifier){
+    Column(modifier.fillMaxWidth())
     {
         Row(
-            modifier = Modifier.padding(
+                modifier = Modifier.padding(
                 bottom = MaterialTheme.dimens.smallPadding,
-                top = MaterialTheme.dimens.mediumPadding
+                top = MaterialTheme.dimens.mediumPadding,
+                start =  MaterialTheme.dimens.mediumPadding
             )
         ) {
             Text(
@@ -286,52 +201,21 @@ fun DisplayLocation(data : Locations){
                 color = MaterialTheme.color.black
             )
         }
-        Row(
-            modifier = Modifier.padding(
-                bottom = MaterialTheme.dimens.smallPadding
-            )
-        ) {
-            Text(
-                text = stringResource(R.string.location_name),
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.color.black
-            )
-            Text(
-                text = data?.name.orEmpty().uppercase(),
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.color.purple_700
-            )
-        }
-        Row(
-            modifier = Modifier.padding(
-                bottom = MaterialTheme.dimens.smallPadding
-            )
-        ) {
-            Text(
-                text = stringResource(R.string.location_dimension),
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.color.black
-            )
-            Text(
-                text = data?.dimension.orEmpty().uppercase(),
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.color.purple_700
-            )
-        }
+        SetTitleContent(R.string.location_name,data?.name)
+        SetTitleContent(R.string.location_dimension,data?.dimension)
+
     }
 }
 @Composable
-fun DisplayEpisodes(episodes: List<Episode>?)
+private fun DisplayEpisodes(episodes: List<Episode>?,
+                    modifier: Modifier = Modifier)
 {
-    Column() {
+    Column(modifier.fillMaxWidth()) {
         Row(
             modifier = Modifier.padding(
                 bottom = MaterialTheme.dimens.smallPadding,
-                top = MaterialTheme.dimens.mediumPadding
+                top = MaterialTheme.dimens.mediumPadding,
+                start =  MaterialTheme.dimens.mediumPadding
             )
         ) {
             Text(
@@ -340,7 +224,7 @@ fun DisplayEpisodes(episodes: List<Episode>?)
                 color = MaterialTheme.color.black
             )
         }
-        Spacer(modifier = Modifier.padding(top = MaterialTheme.dimens.mediumPadding))
+        Spacer(Modifier.padding(top = MaterialTheme.dimens.mediumPadding))
         LazyRow(
             modifier = Modifier.fillMaxWidth(),
             contentPadding = PaddingValues(all = MaterialTheme.dimens.mediumPadding),
@@ -359,10 +243,11 @@ fun DisplayEpisodes(episodes: List<Episode>?)
     }
 }
 @Composable
-fun EpisodesItem(episode: Episode)
+private fun EpisodesItem(episode: Episode,
+                 modifier: Modifier = Modifier)
 {
     Card(
-        modifier = Modifier
+        modifier
             .padding(MaterialTheme.dimens.smallPadding)
             .width(MaterialTheme.dimens.cardWidth)
             .height(MaterialTheme.dimens.cardWidth)
@@ -382,10 +267,29 @@ fun EpisodesItem(episode: Episode)
         }
     }
 }
-
-
-
-
-
-
+@Composable
+private fun SetTitleContent(
+    title:Int, content: String?,
+    modifier: Modifier = Modifier){
+    Row(
+            modifier.padding(
+            bottom = MaterialTheme.dimens.smallPadding,
+            start =  MaterialTheme.dimens.mediumPadding
+        )
+    ) {
+        Text(
+            text = stringResource(title),
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.color.black
+        )
+        Text(
+            text = content?.uppercase()?:"UNKNOWN",
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.color.purple_700,
+            modifier = Modifier.padding(start = MaterialTheme.dimens.smallPadding)
+        )
+    }
+}
 
