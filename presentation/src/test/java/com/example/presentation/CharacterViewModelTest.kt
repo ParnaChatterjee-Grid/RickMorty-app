@@ -9,13 +9,13 @@ import com.example.presentation.viewmodels.CharacterViewModel
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.mockk
+import junit.framework.Assert.assertTrue
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 
@@ -39,19 +39,26 @@ class CharacterViewModelTest {
 
     @Test
     fun `get list of characters on success`() = runTest(testDispatcher) {
+
         val characters = listOf(Characters("a","RickSanchez","https://rickandmortyapi.com/avatar/1.jpeg"),
             Characters("b","MortySmith","https://rickandmortyapi.com/avatar/2.jpeg"),
             Characters("c","SummerSmith","https://rickandmortyapi.com/avatar/3.jpeg"))
+
         coEvery { charactersUseCase.invoke() } returns characters
         characterViewModelTest.getAllCharacters()
         val currentState =  characterViewModelTest.charactersState.value
+        //For checking initial state loading state or not
         assertEquals(ResultState.Loading,currentState)
+
+        //Collecting data from flow and compare
         characterViewModelTest.charactersState.test {
+
             assertTrue(awaitItem() is ResultState)
             val successState = awaitItem()
             assertThat(successState).isInstanceOf(ResultState.Success::class.java)
             val actualCharacters = flowOf((successState as ResultState.Success).data).toList()
             assertThat(actualCharacters.get(0).size).isEqualTo(characters.size)
+
             cancelAndConsumeRemainingEvents()
         }
     }
