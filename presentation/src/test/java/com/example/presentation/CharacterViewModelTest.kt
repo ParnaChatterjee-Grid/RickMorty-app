@@ -40,7 +40,8 @@ class CharacterViewModelTest {
     @Test
     fun `get list of characters on success`() = runTest(testDispatcher) {
 
-        val characters = listOf(Characters("a","RickSanchez","https://rickandmortyapi.com/avatar/1.jpeg"),
+        val characters = listOf(
+            Characters("a","RickSanchez","https://rickandmortyapi.com/avatar/1.jpeg"),
             Characters("b","MortySmith","https://rickandmortyapi.com/avatar/2.jpeg"),
             Characters("c","SummerSmith","https://rickandmortyapi.com/avatar/3.jpeg"))
 
