@@ -27,12 +27,13 @@ class CharacterViewModel @Inject constructor(private val getCharactersUseCase : 
     }
 
 
-    private fun getAllCharacters() {
-        _charactersState.value = ResultState.Loading
+     fun getAllCharacters() {
+       _charactersState.value = ResultState.Loading
         viewModelScope.launch(iodispatcher) {
             try {
                 val result = getCharactersUseCase.invoke()
-                _charactersState.emit(ResultState.Success(result))// Emit the updated list
+                if(result!= null && result.isNotEmpty())
+                  _charactersState.emit(ResultState.Success(result))// Emit the updated list
             } catch (ex: ApolloException) {
                 _charactersState.emit(ResultState.Error(exception = ex))
             }catch (ex: IOException){
