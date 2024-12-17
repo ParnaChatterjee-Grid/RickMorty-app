@@ -21,19 +21,19 @@ import org.junit.Test
 
 @ExperimentalCoroutinesApi
 class CharacterViewModelTest {
-    private lateinit var characterViewModelTest: CharacterViewModel
+    private lateinit var characterViewmodel: CharacterViewModel
     private  lateinit var charactersUseCase: GetCharactersUsecase
     private val testDispatcher = StandardTestDispatcher()
 
     @Before
     fun setUp(){
         charactersUseCase = mockk<GetCharactersUsecase>(relaxed = true)
-        characterViewModelTest = CharacterViewModel(charactersUseCase,testDispatcher)
+        characterViewmodel = CharacterViewModel(charactersUseCase,testDispatcher)
     }
     @Test
     fun `should return charactersState is in loading state when loading characters`() =
         runTest(testDispatcher){
-           val currentState =  characterViewModelTest.charactersState.value
+           val currentState =  characterViewmodel.charactersState.value
             assertEquals(ResultState.Loading,currentState)
     }
 
@@ -46,13 +46,13 @@ class CharacterViewModelTest {
             Characters("c","SummerSmith","https://rickandmortyapi.com/avatar/3.jpeg"))
 
         coEvery { charactersUseCase.invoke() } returns characters
-        characterViewModelTest.getAllCharacters()
-        val currentState =  characterViewModelTest.charactersState.value
+        characterViewmodel.getAllCharacters()
+        val currentState =  characterViewmodel.charactersState.value
         //For checking initial state loading state or not
         assertEquals(ResultState.Loading,currentState)
 
         //Collecting data from flow and compare
-        characterViewModelTest.charactersState.test {
+        characterViewmodel.charactersState.test {
 
             assertTrue(awaitItem() is ResultState)
             val successState = awaitItem()
@@ -69,7 +69,7 @@ class CharacterViewModelTest {
         val repository = mockk<CharacterRepository>(relaxed = true)
         coEvery { repository.getCharacters() } throws exception
         try {
-            characterViewModelTest.getAllCharacters()
+            characterViewmodel.getAllCharacters()
         }
         catch (e :RuntimeException){
             assertEquals("Error fetching character results", ""+e)
