@@ -53,3 +53,5 @@ class GetCharactersUsecaseTest {
         assertEquals(emptyList, result)
     }
 }
+
+
