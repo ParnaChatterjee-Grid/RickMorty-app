@@ -44,4 +44,9 @@ dependencies {
     //dagger
     implementation(libs.dagger)
     ksp(libs.dagger.compiler)
+
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.mockk)
+    testImplementation(libs.turbine)
+    testImplementation(libs.truth)
 }
