@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
@@ -27,10 +28,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign.Companion.Center
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.example.common.ResultState
@@ -58,8 +61,8 @@ fun CharacterDetailScreen(
 private fun CharacterDetails(characterState: State<ResultState<CharacterDetails?>>,
                              modifier: Modifier = Modifier,onBackButton:()->Unit){
    Column(
-       modifier.fillMaxWidth(1f)
-           .padding(MaterialTheme.dimens.smallPadding),
+       modifier.fillMaxWidth(1f),
+          // .padding(MaterialTheme.dimens.smallPadding),
        verticalArrangement = Arrangement.SpaceBetween
    ){
        Box(modifier = Modifier
@@ -138,7 +141,7 @@ private fun ShowCharacterDetails(data: CharacterDetails?,
 private fun DisplayStatus(data:CharacterDetails,
                   modifier: Modifier = Modifier){
     Column(modifier.fillMaxWidth()) {
-        Spacer(Modifier.padding(top = MaterialTheme.dimens.largePadding))
+        Spacer(Modifier.padding(top = MaterialTheme.dimens.mediumPadding))
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -234,11 +237,12 @@ private fun DisplayEpisodes(episodes: List<Episode>?,
                 color = MaterialTheme.color.black
             )
         }
-        Spacer(Modifier.padding(top = MaterialTheme.dimens.mediumPadding))
+     //   Spacer(Modifier.padding(top = MaterialTheme.dimens.smallPadding))
         LazyRow(
             modifier = Modifier.fillMaxWidth(),
             contentPadding = PaddingValues(all = MaterialTheme.dimens.mediumPadding),
-            horizontalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.mediumPadding)
+            horizontalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.smallPadding)
+
         )
         {
             episodes?.size?.let {
@@ -250,33 +254,42 @@ private fun DisplayEpisodes(episodes: List<Episode>?,
             }
 
         }
+        Spacer(Modifier.padding(top = MaterialTheme.dimens.smallPadding))
     }
 }
 @Composable
 private fun EpisodesItem(episode: Episode,
-                 modifier: Modifier = Modifier)
-{
+                 modifier: Modifier = Modifier) {
     Card(
-        modifier
-            .padding(MaterialTheme.dimens.smallPadding)
+        shape = RoundedCornerShape(8.dp),
+        modifier = modifier
+          //  .padding(MaterialTheme.dimens.smallPadding)
             .width(MaterialTheme.dimens.cardWidth)
-            .height(MaterialTheme.dimens.cardWidth)
+            .height(MaterialTheme.dimens.cardHeight)
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.align(Alignment.CenterHorizontally)
-                .padding(MaterialTheme.dimens.smallPadding)
+            modifier = modifier
+                .fillMaxSize()
+                .background(SetGrediant())
+               .padding(MaterialTheme.dimens.smallPadding)
 
         ) {
             Text(
                 text = episode.name,
                 fontSize = MaterialTheme.typography.titleMedium.fontSize,
-                textAlign = Center,
+                textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Bold,
+                color = MaterialTheme.color.white,
+                modifier = Modifier.align(Alignment.CenterVertically)
+                    .fillMaxWidth()
+
+
             )
         }
     }
 }
+
 @Composable
 private fun SetTitleContent(
     title:Int, content: String?,
@@ -301,5 +314,15 @@ private fun SetTitleContent(
             modifier = Modifier.padding(start = MaterialTheme.dimens.smallPadding)
         )
     }
+}
+
+@Composable
+private fun SetGrediant(): Brush {
+    return Brush.linearGradient(
+        listOf(MaterialTheme.color.episode_start,
+            MaterialTheme.color.episode_end)
+
+
+    )
 }
 

@@ -18,8 +18,8 @@ object Dimens {
     val textSizeSmall: Dp = 12.dp
     val textSizeMedium: Dp = 14.dp
     val textSizeLarge: Dp = 18.dp
-    val cardWidth = 100.dp
-    val cardHeight = 100.dp
+    val cardWidth = 130.dp
+    val cardHeight = 130.dp
 }
 
 val LocalDimens = compositionLocalOf{ Dimens }
