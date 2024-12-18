@@ -33,7 +33,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.example.common.ResultState
@@ -62,7 +61,6 @@ private fun CharacterDetails(characterState: State<ResultState<CharacterDetails?
                              modifier: Modifier = Modifier,onBackButton:()->Unit){
    Column(
        modifier.fillMaxWidth(1f),
-          // .padding(MaterialTheme.dimens.smallPadding),
        verticalArrangement = Arrangement.SpaceBetween
    ){
        Box(modifier = Modifier
@@ -216,7 +214,6 @@ private fun DisplayLocation(data : Locations,
         }
         SetTitleContent(R.string.location_name,data?.name)
         SetTitleContent(R.string.location_dimension,data?.dimension)
-
     }
 }
 @Composable
@@ -237,7 +234,6 @@ private fun DisplayEpisodes(episodes: List<Episode>?,
                 color = MaterialTheme.color.black
             )
         }
-     //   Spacer(Modifier.padding(top = MaterialTheme.dimens.smallPadding))
         LazyRow(
             modifier = Modifier.fillMaxWidth(),
             contentPadding = PaddingValues(all = MaterialTheme.dimens.mediumPadding),
@@ -261,9 +257,8 @@ private fun DisplayEpisodes(episodes: List<Episode>?,
 private fun EpisodesItem(episode: Episode,
                  modifier: Modifier = Modifier) {
     Card(
-        shape = RoundedCornerShape(8.dp),
+        shape = RoundedCornerShape(MaterialTheme.dimens.elevation),
         modifier = modifier
-          //  .padding(MaterialTheme.dimens.smallPadding)
             .width(MaterialTheme.dimens.cardWidth)
             .height(MaterialTheme.dimens.cardHeight)
     ) {
@@ -283,8 +278,6 @@ private fun EpisodesItem(episode: Episode,
                 color = MaterialTheme.color.white,
                 modifier = Modifier.align(Alignment.CenterVertically)
                     .fillMaxWidth()
-
-
             )
         }
     }
