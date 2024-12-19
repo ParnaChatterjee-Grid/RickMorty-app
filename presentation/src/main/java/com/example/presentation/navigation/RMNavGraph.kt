@@ -45,7 +45,7 @@ fun RMNavGraph(viewModelprovider: androidx.lifecycle.ViewModelProvider) {
                     onBackButton = navController::navigateUp
                 )
             } else {
-                ShowNoRecord()
+                ShowNoRecord("No Details Present For This Character")
             }
         }
     }
