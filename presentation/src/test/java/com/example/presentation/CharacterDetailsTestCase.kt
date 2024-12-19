@@ -20,7 +20,7 @@ import org.junit.Before
 import org.junit.Test
 
 @ExperimentalCoroutinesApi
-class CharacterDetailsTestCase {
+class CharacterDetailsViewModelTestCase {
     lateinit var characterDetailUsecase: GetCharacterDetailsUsecase
     lateinit var charcterDetailsViewModel: CharacterDetailsViewModel
     val testDispatcher = StandardTestDispatcher()
