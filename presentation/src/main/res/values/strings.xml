@@ -11,4 +11,5 @@
     <string name="origin_dimension">DIMENSION: </string>
     <string name="location_name">NAME: </string>
     <string name="location_dimension">DIMENSION: </string>
+    <string name="unknown_content">UNKNOWN</string>
 </resources>

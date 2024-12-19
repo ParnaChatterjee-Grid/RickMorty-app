@@ -1,6 +1,5 @@
 package com.example.presentation.screens
 
-
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -48,55 +47,60 @@ import com.example.presentation.viewmodels.CharacterDetailsViewModel
 @Composable
 fun CharacterDetailScreen(
     viewModel: CharacterDetailsViewModel,
-    id: String,
     modifier: Modifier = Modifier,
-    onBackButton:() ->Unit
-)
-{
+    onBackButton: () -> Unit
+) {
     val characterState = viewModel.charactersState.collectAsStateWithLifecycle()
-    CharacterDetails(characterState,modifier,onBackButton)
-}
-@Composable
-private fun CharacterDetails(characterState: State<ResultState<CharacterDetails?>>,
-                             modifier: Modifier = Modifier,onBackButton:()->Unit){
-   Column(
-       modifier.fillMaxWidth(1f),
-       verticalArrangement = Arrangement.SpaceBetween
-   ){
-       Box(modifier = Modifier
-           .fillMaxWidth()
-           .background(MaterialTheme.color.white)){
-           when (val state = characterState.value){
-               is ResultState.Loading ->{
-                   CircularProgressIndicator(Modifier.align(Alignment.Center))
-               }
-
-               is ResultState.Error -> {
-                   state.exception.localizedMessage?.let {
-                       Text(
-                           text = it,
-                           color = MaterialTheme.colorScheme.error,
-                           modifier = Modifier.align(Alignment.Center)
-                       )
-                   }
-               }
-               is ResultState.Success -> {
-                  ShowCharacterDetails(state.data,modifier,onBackButton)
-               }
-           }
-       }
-   }
+    CharacterDetails(characterState, modifier, onBackButton)
 }
 
 @Composable
-private fun ShowCharacterDetails(data: CharacterDetails?,
-                                 modifier: Modifier = Modifier,onBackButton : ()->Unit)
-{//for topbar
+private fun CharacterDetails(
+    characterState: State<ResultState<CharacterDetails?>>,
+    modifier: Modifier = Modifier, onBackButton: () -> Unit
+) {
+    Column(
+        modifier.fillMaxWidth(1f),
+        verticalArrangement = Arrangement.SpaceBetween
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(MaterialTheme.color.white)
+        ) {
+            when (val state = characterState.value) {
+                is ResultState.Loading -> {
+                    CircularProgressIndicator(Modifier.align(Alignment.Center))
+                }
+
+                is ResultState.Error -> {
+                    state.exception.localizedMessage?.let {
+                        Text(
+                            text = it,
+                            color = MaterialTheme.colorScheme.error,
+                            modifier = Modifier.align(Alignment.Center)
+                        )
+                    }
+                }
+
+                is ResultState.Success -> {
+                    ShowCharacterDetails(state.data, onBackButton)
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun ShowCharacterDetails(
+    data: CharacterDetails?,
+    onBackButton: () -> Unit, modifier: Modifier = Modifier,
+) {//for topbar
     Column(
         modifier.fillMaxWidth()
     ) {
         Box(
-              modifier = Modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .height(MaterialTheme.dimens.app_bar_height)
                 .align(Alignment.CenterHorizontally)
@@ -106,7 +110,8 @@ private fun ShowCharacterDetails(data: CharacterDetails?,
             Icon(
                 painter = painterResource(R.drawable.ic_back_arrow),
                 contentDescription = "Back Button",
-                modifier = Modifier.padding(all = MaterialTheme.dimens.mediumPadding)
+                modifier = Modifier
+                    .padding(all = MaterialTheme.dimens.mediumPadding)
                     .align(Alignment.CenterStart)
                     .clickable { onBackButton.invoke() }
             )
@@ -123,7 +128,8 @@ private fun ShowCharacterDetails(data: CharacterDetails?,
                 AsyncImage(
                     model = data.image,
                     contentDescription = data.name,
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier
+                        .fillMaxSize()
                         .aspectRatio(1f)
                 )
             }
@@ -131,13 +137,16 @@ private fun ShowCharacterDetails(data: CharacterDetails?,
             data?.let { DisplaySpices(it) }
             data?.origin?.let { DisplayOrigin(it) }
             data?.locations?.let { DisplayLocation(it) }
-                DisplayEpisodes(data?.episodes)
+            DisplayEpisodes(data?.episodes)
         }
     }
 }
+
 @Composable
-private fun DisplayStatus(data:CharacterDetails,
-                  modifier: Modifier = Modifier){
+private fun DisplayStatus(
+    data: CharacterDetails,
+    modifier: Modifier = Modifier
+) {
     Column(modifier.fillMaxWidth()) {
         Spacer(Modifier.padding(top = MaterialTheme.dimens.mediumPadding))
         Box(
@@ -158,30 +167,30 @@ private fun DisplayStatus(data:CharacterDetails,
             }
         }
         //status
-        SetTitleContent(R.string.status,data?.status)
+        SetTitleContent(R.string.status, data?.status)
     }
 
 }
+
 @Composable
-private fun DisplaySpices(data:CharacterDetails,
-                  modifier: Modifier = Modifier){
-    Column(modifier.fillMaxWidth()) {
+private fun DisplaySpices(data: CharacterDetails) {
+    Column(Modifier.fillMaxWidth()) {
         //Species
-        SetTitleContent(R.string.species,data?.species)
+        SetTitleContent(R.string.species, data?.species)
         //Gender
-        SetTitleContent(R.string.gender,data?.gender)
+        SetTitleContent(R.string.gender, data?.gender)
     }
 }
+
 @Composable
-private fun DisplayOrigin(origin:Origins,
-                  modifier: Modifier = Modifier){
-    Column(modifier.fillMaxWidth())
+private fun DisplayOrigin(origin: Origins) {
+    Column(Modifier.fillMaxWidth())
     {
         Row(
             modifier = Modifier.padding(
                 bottom = MaterialTheme.dimens.smallPadding,
                 top = MaterialTheme.dimens.mediumPadding,
-                start =  MaterialTheme.dimens.mediumPadding
+                start = MaterialTheme.dimens.mediumPadding
             )
         ) {
             Text(
@@ -190,20 +199,20 @@ private fun DisplayOrigin(origin:Origins,
                 color = MaterialTheme.color.black
             )
         }
-        SetTitleContent(R.string.origin_name,origin.name)
-        SetTitleContent(R.string.origin_dimension,origin.dimension)
+        SetTitleContent(R.string.origin_name, origin.name)
+        SetTitleContent(R.string.origin_dimension, origin.dimension)
     }
 }
+
 @Composable
-private fun DisplayLocation(data : Locations,
-                    modifier: Modifier = Modifier){
-    Column(modifier.fillMaxWidth())
+private fun DisplayLocation(data: Locations) {
+    Column(Modifier.fillMaxWidth())
     {
         Row(
-                modifier = Modifier.padding(
+            modifier = Modifier.padding(
                 bottom = MaterialTheme.dimens.smallPadding,
                 top = MaterialTheme.dimens.mediumPadding,
-                start =  MaterialTheme.dimens.mediumPadding
+                start = MaterialTheme.dimens.mediumPadding
             )
         ) {
             Text(
@@ -212,20 +221,19 @@ private fun DisplayLocation(data : Locations,
                 color = MaterialTheme.color.black
             )
         }
-        SetTitleContent(R.string.location_name,data?.name)
-        SetTitleContent(R.string.location_dimension,data?.dimension)
+        SetTitleContent(R.string.location_name, data.name)
+        SetTitleContent(R.string.location_dimension, data?.dimension)
     }
 }
+
 @Composable
-private fun DisplayEpisodes(episodes: List<Episode>?,
-                    modifier: Modifier = Modifier)
-{
-    Column(modifier.fillMaxWidth()) {
+private fun DisplayEpisodes(episodes: List<Episode>?) {
+    Column(Modifier.fillMaxWidth()) {
         Row(
             modifier = Modifier.padding(
                 bottom = MaterialTheme.dimens.smallPadding,
                 top = MaterialTheme.dimens.mediumPadding,
-                start =  MaterialTheme.dimens.mediumPadding
+                start = MaterialTheme.dimens.mediumPadding
             )
         ) {
             Text(
@@ -253,21 +261,21 @@ private fun DisplayEpisodes(episodes: List<Episode>?,
         Spacer(Modifier.padding(top = MaterialTheme.dimens.smallPadding))
     }
 }
+
 @Composable
-private fun EpisodesItem(episode: Episode,
-                 modifier: Modifier = Modifier) {
+private fun EpisodesItem(episode: Episode) {
     Card(
         shape = RoundedCornerShape(MaterialTheme.dimens.elevation),
-        modifier = modifier
+        modifier = Modifier
             .width(MaterialTheme.dimens.cardWidth)
             .height(MaterialTheme.dimens.cardHeight)
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxSize()
-                .background(SetGrediant())
-               .padding(MaterialTheme.dimens.smallPadding)
+                .background(setGrediantColor())
+                .padding(MaterialTheme.dimens.smallPadding)
 
         ) {
             Text(
@@ -276,7 +284,8 @@ private fun EpisodesItem(episode: Episode,
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.color.white,
-                modifier = Modifier.align(Alignment.CenterVertically)
+                modifier = Modifier
+                    .align(Alignment.CenterVertically)
                     .fillMaxWidth()
             )
         }
@@ -285,12 +294,12 @@ private fun EpisodesItem(episode: Episode,
 
 @Composable
 private fun SetTitleContent(
-    title:Int, content: String?,
-    modifier: Modifier = Modifier){
+    title: Int, content: String?
+) {
     Row(
-            modifier.padding(
+        Modifier.padding(
             bottom = MaterialTheme.dimens.smallPadding,
-            start =  MaterialTheme.dimens.mediumPadding
+            start = MaterialTheme.dimens.mediumPadding
         )
     ) {
         Text(
@@ -300,7 +309,7 @@ private fun SetTitleContent(
             color = MaterialTheme.color.black
         )
         Text(
-            text = content?.uppercase()?:"UNKNOWN",
+            text = content?.uppercase() ?: stringResource(R.string.unknown_content),
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.color.purple_700,
@@ -310,12 +319,12 @@ private fun SetTitleContent(
 }
 
 @Composable
-private fun SetGrediant(): Brush {
+private fun setGrediantColor(): Brush {
     return Brush.linearGradient(
-        listOf(MaterialTheme.color.episode_start,
-            MaterialTheme.color.episode_end)
-
-
+        listOf(
+            MaterialTheme.color.episode_start,
+            MaterialTheme.color.episode_end
+        )
     )
 }
 

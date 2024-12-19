@@ -17,7 +17,8 @@ fun getCharactersQueryToCharacterModel(results: GetAllCharactersQuery.Result?): 
         )
     }
 }
-fun getCharacterDetailsToCharacterDetails(results: GetCharacterByIdQuery.Character):CharacterDetails?{
+
+fun getCharacterDetailsToCharacterDetails(results: GetCharacterByIdQuery.Character): CharacterDetails? {
     return results?.let {
         CharacterDetails(
             id = it.id,
@@ -27,38 +28,39 @@ fun getCharacterDetailsToCharacterDetails(results: GetCharacterByIdQuery.Charact
             species = it.species,
             gender = it.gender,
             origin = getOrigin(it.origin),
-            episodes = getEpisodes(it.episode) ,
+            episodes = getEpisodes(it.episode),
             locations = getLocations(it.location),
         )
     }
 }
 
 private fun getLocations(location: GetCharacterByIdQuery.Location): Locations? {
-    return location.id?.let { Locations(it,location.name, location.dimension?:"UNKNOWN") }
+    return location.id?.let { Locations(it, location.name, location.dimension) }
 }
 
 private fun getEpisodes(episodes: List<GetCharacterByIdQuery.Episode>): List<Episode> {
 
-        var episodeslist = mutableListOf<Episode>()
-        for(episode in episodes) {
-            if (episode != null) {
-                episodeslist.add(
-                    Episode(
-                        episode.id,
-                        episode.name,
-                        episode.air_date,
-                        episode.episode
+    var episodeslist = mutableListOf<Episode>()
+    for (episode in episodes) {
+        if (episode != null) {
+            episodeslist.add(
+                Episode(
+                    episode.id,
+                    episode.name,
+                    episode.air_date,
+                    episode.episode
 
-                    )
                 )
-            }
+            )
         }
-        return episodeslist
     }
+    return episodeslist
+}
 
 
-private fun getOrigin(origin: GetCharacterByIdQuery.Origin):Origins{
+private fun getOrigin(origin: GetCharacterByIdQuery.Origin): Origins {
     return Origins(
         name = origin.name,
-        dimension = origin.dimension?:"UNKNOWN"
-    )}
+        dimension = origin.dimension
+    )
+}
