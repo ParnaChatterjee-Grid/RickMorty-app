@@ -10,11 +10,14 @@ import androidx.compose.ui.Modifier
 
 
 @Composable
-fun ShowNoRecord(modifier: Modifier = Modifier) {
+fun ShowNoRecord(
+    message: String,
+    modifier: Modifier = Modifier
+) {
     Column(modifier.fillMaxWidth(1f))
     {
         Text(
-            text = "No Details Present For This Character",
+            text = message,
             color = MaterialTheme.colorScheme.error,
             modifier = Modifier.align(Alignment.CenterHorizontally)
         )
