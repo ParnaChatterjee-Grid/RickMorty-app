@@ -16,7 +16,7 @@ import org.junit.Before
 import org.junit.Test
 
 @kotlinx.coroutines.ExperimentalCoroutinesApi
-class GetCharacterDetailsTest {
+class GetCharacterDetailsUsecaseTest {
     private lateinit var getCharacterDetails: GetCharacterDetailsUsecase
     private val repository = mockk<CharacterRepository>(relaxed = true)
     private val testDispatcher = StandardTestDispatcher()
