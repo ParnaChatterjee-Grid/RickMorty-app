@@ -37,12 +37,13 @@ import com.example.presentation.viewmodels.CharacterViewModel
 @Composable
 fun CharacterListScreen(
     viewModel: CharacterViewModel,
-    onNavigateTo : (String) ->Unit
+    onNavigateTo : (String) ->Unit,
+    modifier: Modifier = Modifier
 ) {
     val characterState by viewModel.charactersState.collectAsStateWithLifecycle()
     remember { characterState }
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(MaterialTheme.dimens.smallPadding),
         verticalArrangement = Arrangement.SpaceBetween
@@ -92,10 +93,12 @@ fun CharacterListScreen(
 
 @Composable
 private fun SetCharactersList(characterList: List<Characters>,
-                              onNavigateTo :(String) -> Unit) {
+                              onNavigateTo :(String) -> Unit,
+                              modifier: Modifier = Modifier)
+{
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         contentPadding = PaddingValues(all = MaterialTheme.dimens.smallPadding),
         horizontalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.smallPadding),
         verticalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.smallPadding)
@@ -107,9 +110,11 @@ private fun SetCharactersList(characterList: List<Characters>,
 }
 
 @Composable
-private fun SetCharacterItem(character: Characters, onNavigateTo :(String) -> Unit) {
+private fun SetCharacterItem(character: Characters,
+                             onNavigateTo :(String) -> Unit,
+                             modifier: Modifier = Modifier) {
     Card(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(MaterialTheme.dimens.smallPadding)
             .clickable {

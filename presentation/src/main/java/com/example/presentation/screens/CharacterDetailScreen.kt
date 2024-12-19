@@ -94,7 +94,8 @@ private fun CharacterDetails(
 @Composable
 private fun ShowCharacterDetails(
     data: CharacterDetails?,
-    onBackButton: () -> Unit, modifier: Modifier = Modifier,
+    onBackButton: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {//for topbar
     Column(
         modifier.fillMaxWidth()
@@ -173,8 +174,9 @@ private fun DisplayStatus(
 }
 
 @Composable
-private fun DisplaySpices(data: CharacterDetails) {
-    Column(Modifier.fillMaxWidth()) {
+private fun DisplaySpices(data: CharacterDetails,
+                          modifier: Modifier = Modifier) {
+    Column(modifier.fillMaxWidth()) {
         //Species
         SetTitleContent(R.string.species, data?.species)
         //Gender
@@ -183,8 +185,9 @@ private fun DisplaySpices(data: CharacterDetails) {
 }
 
 @Composable
-private fun DisplayOrigin(origin: Origins) {
-    Column(Modifier.fillMaxWidth())
+private fun DisplayOrigin(origin: Origins,
+                          modifier: Modifier = Modifier) {
+    Column(modifier.fillMaxWidth())
     {
         Row(
             modifier = Modifier.padding(
@@ -205,8 +208,9 @@ private fun DisplayOrigin(origin: Origins) {
 }
 
 @Composable
-private fun DisplayLocation(data: Locations) {
-    Column(Modifier.fillMaxWidth())
+private fun DisplayLocation(data: Locations,
+                            modifier: Modifier = Modifier) {
+    Column(modifier.fillMaxWidth())
     {
         Row(
             modifier = Modifier.padding(
@@ -227,8 +231,9 @@ private fun DisplayLocation(data: Locations) {
 }
 
 @Composable
-private fun DisplayEpisodes(episodes: List<Episode>?) {
-    Column(Modifier.fillMaxWidth()) {
+private fun DisplayEpisodes(episodes: List<Episode>?,
+                            modifier: Modifier = Modifier) {
+    Column(modifier.fillMaxWidth()) {
         Row(
             modifier = Modifier.padding(
                 bottom = MaterialTheme.dimens.smallPadding,
@@ -294,10 +299,11 @@ private fun EpisodesItem(episode: Episode) {
 
 @Composable
 private fun SetTitleContent(
-    title: Int, content: String?
+    title: Int, content: String?,
+    modifier: Modifier = Modifier
 ) {
     Row(
-        Modifier.padding(
+        modifier.padding(
             bottom = MaterialTheme.dimens.smallPadding,
             start = MaterialTheme.dimens.mediumPadding
         )
