@@ -1,6 +1,7 @@
 package com.example.presentation.screens
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -34,11 +35,15 @@ import com.example.presentation.viewmodels.CharacterViewModel
 
 
 @Composable
-fun CharacterListScreen(viewModel: CharacterViewModel) {
+fun CharacterListScreen(
+    viewModel: CharacterViewModel,
+    onNavigateTo : (String) ->Unit,
+    modifier: Modifier = Modifier
+) {
     val characterState by viewModel.charactersState.collectAsStateWithLifecycle()
     remember { characterState }
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(MaterialTheme.dimens.smallPadding),
         verticalArrangement = Arrangement.SpaceBetween
@@ -69,14 +74,14 @@ fun CharacterListScreen(viewModel: CharacterViewModel) {
                 }
 
                 is ResultState.Success -> {
-                    SetCharactersList(state.data.requireNoNulls())
+                    SetCharactersList(state.data.requireNoNulls(),onNavigateTo)
                 }
 
                 is ResultState.Error -> {
                     state.exception.localizedMessage?.let {
                         Text(
                             text = it,
-                           // color = MaterialTheme.colorScheme.error,
+                            color = MaterialTheme.colorScheme.error,
                             modifier = Modifier
                         )
                     }
@@ -87,27 +92,35 @@ fun CharacterListScreen(viewModel: CharacterViewModel) {
 }
 
 @Composable
-private fun SetCharactersList(characterList: List<Characters>) {
+private fun SetCharactersList(characterList: List<Characters>,
+                              onNavigateTo :(String) -> Unit,
+                              modifier: Modifier = Modifier)
+{
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         contentPadding = PaddingValues(all = MaterialTheme.dimens.smallPadding),
         horizontalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.smallPadding),
         verticalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.smallPadding)
     ) {
         items(characterList.size, key = { characterList[it].id }) { index ->
-            SetCharacterItem(character = characterList[index])
+            SetCharacterItem(character = characterList[index],onNavigateTo)
         }
     }
 }
 
 @Composable
-private fun SetCharacterItem(character: Characters) {
+private fun SetCharacterItem(character: Characters,
+                             onNavigateTo :(String) -> Unit,
+                             modifier: Modifier = Modifier) {
     Card(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(MaterialTheme.dimens.smallPadding)
-    ) {
+            .clickable {
+                onNavigateTo(character.id)}
+    )
+     {
         Box(modifier = Modifier.fillMaxSize()) {
             AsyncImage(
                 model = character.image,
@@ -128,3 +141,5 @@ private fun SetCharacterItem(character: Characters) {
     }
 
 }
+
+

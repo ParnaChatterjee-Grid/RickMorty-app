@@ -7,8 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModelProvider
 import com.example.myjetpackapplication.ui.theme.MyJetpackApplicationTheme
-import com.example.presentation.screens.CharacterListScreen
-import com.example.presentation.viewmodels.CharacterViewModel
+import com.example.presentation.navigation.RMNavGraph
 import com.example.presentation.viewmodels.ViewModelfactory
 import javax.inject.Inject
 
@@ -21,10 +20,9 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MyJetpackApplicationTheme {
-                val characterViewModel: CharacterViewModel =
-                ViewModelProvider(LocalContext.current as ComponentActivity,
-                    viewModelFactoryProvider)[CharacterViewModel::class.java]
-                CharacterListScreen(characterViewModel)
+                var viewmodelprovider =ViewModelProvider(LocalContext.current as ComponentActivity,
+                    viewModelFactoryProvider)
+                RMNavGraph(viewmodelprovider)
             }
         }
     }

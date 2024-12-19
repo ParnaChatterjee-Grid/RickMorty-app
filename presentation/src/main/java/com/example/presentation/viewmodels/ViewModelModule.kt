@@ -1,6 +1,7 @@
 package com.example.presentation.viewmodels
 
 import com.example.data.di.IoDispatcher
+import com.example.domain.usecases.GetCharacterDetailsUsecase
 import com.example.domain.usecases.GetCharactersUsecase
 import dagger.Module
 import dagger.Provides
@@ -12,8 +13,9 @@ class ViewModelModule{
     @Provides
     @Singleton
     fun provideViewModelFactory(getCharactersUsecase : GetCharactersUsecase,
+                                getCharacterDetailUseCase: GetCharacterDetailsUsecase,
                                 @IoDispatcher coroutineDispatcher: CoroutineDispatcher
     ): ViewModelfactory {
-        return ViewModelfactory(getCharactersUsecase,coroutineDispatcher)
+        return ViewModelfactory(getCharactersUsecase,getCharacterDetailUseCase,coroutineDispatcher)
     }
 }

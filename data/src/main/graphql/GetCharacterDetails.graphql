@@ -9,8 +9,6 @@ query GetCharacterById($id: ID!) {
         species
         status
         origin {
-            id
-            type
             name
             dimension
         }
