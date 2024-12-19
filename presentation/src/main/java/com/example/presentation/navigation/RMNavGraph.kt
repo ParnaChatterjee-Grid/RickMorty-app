@@ -1,22 +1,17 @@
 package com.example.presentation.navigation
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.example.presentation.screens.CharacterDetailScreen
 import com.example.presentation.screens.CharacterListScreen
+import com.example.presentation.screens.ShowNoRecord
 import com.example.presentation.viewmodels.CharacterDetailsViewModel
 import com.example.presentation.viewmodels.CharacterViewModel
 
@@ -56,15 +51,5 @@ fun RMNavGraph(viewModelprovider: androidx.lifecycle.ViewModelProvider) {
     }
 }
 
-@Composable
-private fun ShowNoRecord(modifier: Modifier = Modifier) {
-    Column(modifier.fillMaxWidth(1f))
-    {
-        Text(
-            text = "No Details Present For This Character",
-            color = MaterialTheme.colorScheme.error,
-            modifier = Modifier.align(Alignment.CenterHorizontally)
-        )
-    }
-}
+
 
