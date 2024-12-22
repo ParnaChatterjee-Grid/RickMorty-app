@@ -268,10 +268,10 @@ private fun DisplayEpisodes(episodes: List<Episode>?,
 }
 
 @Composable
-private fun EpisodesItem(episode: Episode) {
+private fun EpisodesItem(episode: Episode,modifier : Modifier = Modifier) {
     Card(
         shape = RoundedCornerShape(MaterialTheme.dimens.elevation),
-        modifier = Modifier
+        modifier = modifier
             .width(MaterialTheme.dimens.cardWidth)
             .height(MaterialTheme.dimens.cardHeight)
     ) {
