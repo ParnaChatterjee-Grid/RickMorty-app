@@ -117,7 +117,7 @@ private fun ShowCharacterDetails(
                     .clickable { onBackButton.invoke() }
             )
             Text(
-                text = data?.name ?: "CharacterDetails",
+                text = data?.name ?: stringResource(R.string.character_detail_screen),
                 style = MaterialTheme.typography.headlineMedium,
                 color = MaterialTheme.color.black,
                 modifier = Modifier.align(Alignment.Center)
