@@ -35,32 +35,6 @@ fun getCharacterDetailsToCharacterDetails(results: GetCharacterByIdQuery.Charact
     }
 }
 
-fun getEpisodeQueryToEpisode(results: GetEpisodeDetailsByIdQuery.Episode): Episode? {
-    return Episode(
-        id = results.id,
-        name = results.name,
-        airdate = results.air_date,
-        episode = results.episode,
-        characters = getCharacters(results.characters)
-    )
-}
-
-
-private fun getCharacters(characterlist: List<GetEpisodeDetailsByIdQuery.Character?>): List<Characters> {
-    var characters = mutableListOf<Characters>()
-    for (character in characterlist) {
-        if (character != null) {
-            characters.add(
-                Characters(
-                    character.id,
-                    character.name,
-                    character.image
-                )
-            )
-        }
-    }
-    return characters
-}
 
 private fun getLocations(location: GetCharacterByIdQuery.Location): Locations? {
     return location.id?.let { Locations(it, location.name, location.dimension) }
@@ -90,3 +64,31 @@ private fun getOrigin(origin: GetCharacterByIdQuery.Origin): Origins {
         dimension = origin.dimension
     )
 }
+
+fun getEpisodeQueryToEpisode(results: GetEpisodeDetailsByIdQuery.Episode): Episode? {
+    return Episode(
+        id = results.id,
+        name = results.name,
+        airdate = results.air_date,
+        episode = results.episode,
+        characters = getCharacters(results.characters)
+    )
+}
+
+
+private fun getCharacters(characterlist: List<GetEpisodeDetailsByIdQuery.Character?>): List<Characters> {
+    var characters = mutableListOf<Characters>()
+    for (character in characterlist) {
+        if (character != null) {
+            characters.add(
+                Characters(
+                    character.id,
+                    character.name,
+                    character.image
+                )
+            )
+        }
+    }
+    return characters
+}
+
