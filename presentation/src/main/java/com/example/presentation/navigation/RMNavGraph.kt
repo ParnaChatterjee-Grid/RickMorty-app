@@ -5,10 +5,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import com.example.presentation.R
 import com.example.presentation.screens.CharacterDetailScreen
 import com.example.presentation.screens.CharacterListScreen
 import com.example.presentation.screens.ShowNoRecord
@@ -45,7 +47,7 @@ fun RMNavGraph(viewModelprovider: androidx.lifecycle.ViewModelProvider) {
                     onBackButton = navController::navigateUp
                 )
             } else {
-                ShowNoRecord("No Details Present For This Character")
+                ShowNoRecord(stringResource(R.string.no_character_details))
             }
         }
     }
