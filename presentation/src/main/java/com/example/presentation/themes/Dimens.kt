@@ -17,7 +17,10 @@ object Dimens {
     val app_bar_height: Dp = 60.dp
     val textSizeSmall: Dp = 12.dp
     val textSizeMedium: Dp = 14.dp
-    val textSizeLarge: Dp = 18.dp
+    val textSizeLarge:  Dp= 18.dp
+    val cardWidth = 130.dp
+    val cardHeight = 130.dp
+    val elevation = 12.dp
 }
 
 val LocalDimens = compositionLocalOf{ Dimens }

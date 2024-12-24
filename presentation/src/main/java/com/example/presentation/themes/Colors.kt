@@ -14,6 +14,8 @@ object Colors {
  val black = Color(color =0xFF000000)
  val white = Color(color =0xFFFFFFFF)
  val topbar_box = Color(color =0xFFFEF7EA)
+ val episode_start = Color(color = 0xFF3700B3)
+ val episode_end = Color(color = 0xFF625B71)
 }
 
 val LocalColor = compositionLocalOf{ Colors }

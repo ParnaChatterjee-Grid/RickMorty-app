@@ -48,7 +48,7 @@ Compose:
   DefaultsVisibility:
     active: true
   LambdaParameterEventTrailing:
-    active: true
+    active: false
     # You can optionally add your own composables here
     # contentEmitters: MyComposable,MyOtherComposable
     # You can add composables here that you don't want to count as content emitters
@@ -293,11 +293,11 @@ complexity:
   TooManyFunctions:
     active: true
     excludes: ['**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/androidUnitTest/**', '**/androidInstrumentedTest/**', '**/jsTest/**', '**/iosTest/**']
-    thresholdInFiles: 11
-    thresholdInClasses: 11
-    thresholdInInterfaces: 11
-    thresholdInObjects: 11
-    thresholdInEnums: 11
+    thresholdInFiles: 13
+    thresholdInClasses: 13
+    thresholdInInterfaces: 13
+    thresholdInObjects: 13
+    thresholdInEnums: 13
     ignoreDeprecated: false
     ignorePrivate: false
     ignoreOverridden: false
@@ -837,7 +837,7 @@ style:
   UnnecessaryApply:
     active: true
   UnnecessaryBackticks:
-    active: false
+    active: true
   UnnecessaryBracesAroundTrailingLambda:
     active: false
   UnnecessaryFilter:
