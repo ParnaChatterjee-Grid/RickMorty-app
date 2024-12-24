@@ -37,7 +37,7 @@ import com.example.presentation.viewmodels.CharacterViewModel
 @Composable
 fun CharacterListScreen(
     viewModel: CharacterViewModel,
-    onNavigateTo : (String) ->Unit,
+    onNavigateTo: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val characterState by viewModel.charactersState.collectAsStateWithLifecycle()
@@ -74,7 +74,7 @@ fun CharacterListScreen(
                 }
 
                 is ResultState.Success -> {
-                    SetCharactersList(state.data.requireNoNulls(),onNavigateTo)
+                    SetCharactersList(state.data.requireNoNulls(), onNavigateTo)
                 }
 
                 is ResultState.Error -> {
@@ -92,10 +92,11 @@ fun CharacterListScreen(
 }
 
 @Composable
-private fun SetCharactersList(characterList: List<Characters>,
-                              onNavigateTo :(String) -> Unit,
-                              modifier: Modifier = Modifier)
-{
+private fun SetCharactersList(
+    characterList: List<Characters>,
+    onNavigateTo: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         modifier = modifier.fillMaxWidth(),
@@ -104,23 +105,26 @@ private fun SetCharactersList(characterList: List<Characters>,
         verticalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.smallPadding)
     ) {
         items(characterList.size, key = { characterList[it].id }) { index ->
-            SetCharacterItem(character = characterList[index],onNavigateTo)
+            SetCharacterItem(character = characterList[index], onNavigateTo)
         }
     }
 }
 
 @Composable
-private fun SetCharacterItem(character: Characters,
-                             onNavigateTo :(String) -> Unit,
-                             modifier: Modifier = Modifier) {
+private fun SetCharacterItem(
+    character: Characters,
+    onNavigateTo: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
     Card(
         modifier = modifier
             .fillMaxWidth()
             .padding(MaterialTheme.dimens.smallPadding)
             .clickable {
-                onNavigateTo(character.id)}
+                onNavigateTo(character.id)
+            }
     )
-     {
+    {
         Box(modifier = Modifier.fillMaxSize()) {
             AsyncImage(
                 model = character.image,
