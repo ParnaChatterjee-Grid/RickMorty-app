@@ -12,4 +12,5 @@
     <string name="location_name">NAME: </string>
     <string name="location_dimension">DIMENSION: </string>
     <string name="unknown_content">UNKNOWN</string>
+    <string name="no_character_details">No Details Present For This Character</string>
 </resources>
