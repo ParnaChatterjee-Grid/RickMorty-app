@@ -22,7 +22,8 @@ data class Episode(
     val id: String = "",
     val name: String = "",
     val airdate: String = "",
-    val episode: String = ""
+    val episode: String = "",
+    val characters: List<Characters> = emptyList()
 
 )
 
