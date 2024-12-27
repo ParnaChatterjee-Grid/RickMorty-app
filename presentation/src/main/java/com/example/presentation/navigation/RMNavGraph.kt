@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -20,7 +21,7 @@ import com.example.presentation.viewmodels.CharacterViewModel
 import com.example.presentation.viewmodels.EpisodeDetailsViewModel
 
 @Composable
-fun RMNavGraph(viewModelprovider: androidx.lifecycle.ViewModelProvider) {
+fun RMNavGraph(viewModelprovider: ViewModelProvider) {
     val navController = rememberNavController()
 
     NavHost(navController = navController, startDestination = RMScreenRoutes.HomeScreen) {
@@ -51,7 +52,10 @@ fun RMNavGraph(viewModelprovider: androidx.lifecycle.ViewModelProvider) {
             if (characterDetails.characterId != null) {
                 CharacterDetailScreen(
                     characterDetailViewModel,
-                    onBackButton = navController::navigateUp
+                    onBackButton = navController::navigateUp,
+                    onNavigateTo = { episodeId: String ->
+                        navController.navigate(RMScreenRoutes.EpisodeDetail(episodeId))
+                    }
                 )
             } else {
                 ShowNoRecord(stringResource(R.string.no_character_details))
@@ -60,33 +64,27 @@ fun RMNavGraph(viewModelprovider: androidx.lifecycle.ViewModelProvider) {
 
         //For Episode Details Screen
 
-        composable<RMScreenRoutes.CharacterDetail> { navBackStackEntry ->
+        composable<RMScreenRoutes.EpisodeDetail> { navBackStackEntry ->
             val episodeDetails: RMScreenRoutes.EpisodeDetail =
                 navBackStackEntry.toRoute<RMScreenRoutes.EpisodeDetail>()
             val episodeDetailViewModel: EpisodeDetailsViewModel =
                 viewModelprovider[EpisodeDetailsViewModel::class.java]
 
             var id by rememberSaveable { mutableStateOf("") }
-            if (!id.contentEquals(episodeDetails.episodeId)) {
-                episodeDetailViewModel.getEpisodeDetails(episodeDetails.episodeId)
-                id = episodeDetails.episodeId
-            }
-            EpisodeDetailScreen (
+            episodeDetailViewModel.getEpisodeDetails(episodeDetails.episodeId)
+
+             if (!id.contentEquals(episodeDetails.episodeId)) {
+             episodeDetailViewModel.getEpisodeDetails(episodeDetails.episodeId)
+             id = episodeDetails.episodeId
+         }
+            EpisodeDetailScreen(
                 episodeDetailViewModel,
                 onBackButton = navController::navigateUp
             )
-           /* if (characterDetails.characterId != null) {
-                CharacterDetailScreen(
-                    characterDetailViewModel,
-                    onBackButton = navController::navigateUp
-                )
-            } else {
-                ShowNoRecord("No Details Present For This Character")
-            }*/
         }
-
     }
 }
+
 
 
 
