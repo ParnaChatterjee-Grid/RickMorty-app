@@ -8,5 +8,8 @@ sealed class RMScreenRoutes {
  @Serializable
  data class CharacterDetail(val characterId : String):RMScreenRoutes()
 
+ @Serializable
+ data class EpisodeDetail(val episodeId : String):RMScreenRoutes()
+
 }
 

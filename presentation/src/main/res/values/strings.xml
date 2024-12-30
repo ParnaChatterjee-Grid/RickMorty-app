@@ -15,4 +15,7 @@
     <string name="episode_screen">EpisodeDetails</string>
     <string name="character_detail_screen">CharacterDetails</string>
     <string name="no_character_details">No Details Present For This Character</string>
+    <string name="episodename">EPISODE NAME</string>
+    <string name="characterS">CHARACTERS</string>
+    <string name="AIR_DATE">AIR DATE</string>
 </resources>
