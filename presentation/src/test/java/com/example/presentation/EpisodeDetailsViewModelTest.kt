@@ -8,6 +8,7 @@ import com.example.domain.usecases.GetEpisodeDetailsUsecase
 import com.example.presentation.viewmodels.EpisodeDetailsViewModel
 import io.mockk.coEvery
 import io.mockk.mockk
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -17,7 +18,7 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 
-@kotlinx.coroutines.ExperimentalCoroutinesApi
+@ExperimentalCoroutinesApi
 class EpisodeDetailsViewModelTest {
     private lateinit var episodeDetailsUsecase: GetEpisodeDetailsUsecase
     private lateinit var episodeDetailsViewModel: EpisodeDetailsViewModel
