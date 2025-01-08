@@ -2,6 +2,7 @@ package com.example.data.datamapper
 
 import com.example.data.GetAllCharactersQuery
 import com.example.data.GetCharacterByIdQuery
+import com.example.data.GetEpisodeDetailsByIdQuery
 import com.example.domain.models.CharacterDetails
 import com.example.domain.models.Characters
 import com.example.domain.models.Episode
@@ -29,10 +30,11 @@ fun getCharacterDetailsToCharacterDetails(results: GetCharacterByIdQuery.Charact
             gender = it.gender,
             origin = getOrigin(it.origin),
             episodes = getEpisodes(it.episode),
-            locations = getLocations(it.location),
+            locations = getLocations(it.location)
         )
     }
 }
+
 
 private fun getLocations(location: GetCharacterByIdQuery.Location): Locations? {
     return location.id?.let { Locations(it, location.name, location.dimension) }
@@ -49,7 +51,6 @@ private fun getEpisodes(episodes: List<GetCharacterByIdQuery.Episode>): List<Epi
                     episode.name,
                     episode.air_date,
                     episode.episode
-
                 )
             )
         }
@@ -57,10 +58,37 @@ private fun getEpisodes(episodes: List<GetCharacterByIdQuery.Episode>): List<Epi
     return episodeslist
 }
 
-
 private fun getOrigin(origin: GetCharacterByIdQuery.Origin): Origins {
     return Origins(
         name = origin.name,
         dimension = origin.dimension
     )
 }
+
+fun getEpisodeQueryToEpisode(results: GetEpisodeDetailsByIdQuery.Episode): Episode? {
+    return Episode(
+        id = results.id,
+        name = results.name,
+        airdate = results.air_date,
+        episode = results.episode,
+        characters = getCharacters(results.characters)
+    )
+}
+
+
+private fun getCharacters(characterlist: List<GetEpisodeDetailsByIdQuery.Character?>): List<Characters> {
+    var characters = mutableListOf<Characters>()
+    for (character in characterlist) {
+        if (character != null) {
+            characters.add(
+                Characters(
+                    character.id,
+                    character.name,
+                    character.image
+                )
+            )
+        }
+    }
+    return characters
+}
+
