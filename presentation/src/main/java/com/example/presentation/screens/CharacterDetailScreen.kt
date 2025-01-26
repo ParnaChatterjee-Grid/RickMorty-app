@@ -47,17 +47,21 @@ import com.example.presentation.viewmodels.CharacterDetailsViewModel
 @Composable
 fun CharacterDetailScreen(
     viewModel: CharacterDetailsViewModel,
-    modifier: Modifier = Modifier,
-    onBackButton: () -> Unit
+    onBackButton: () -> Unit,
+    onNavigateTo: (String) -> Unit,
+    modifier: Modifier = Modifier
+
 ) {
     val characterState = viewModel.charactersState.collectAsStateWithLifecycle()
-    CharacterDetails(characterState, modifier, onBackButton)
+    CharacterDetails(characterState,onBackButton, onNavigateTo,modifier)
 }
 
 @Composable
 private fun CharacterDetails(
     characterState: State<ResultState<CharacterDetails?>>,
-    modifier: Modifier = Modifier, onBackButton: () -> Unit
+    onBackButton: () -> Unit,
+    onNavigateTo: (String) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier.fillMaxWidth(1f),
@@ -84,7 +88,7 @@ private fun CharacterDetails(
                 }
 
                 is ResultState.Success -> {
-                    ShowCharacterDetails(state.data, onBackButton)
+                    ShowCharacterDetails(state.data, onBackButton,onNavigateTo)
                 }
             }
         }
@@ -95,7 +99,8 @@ private fun CharacterDetails(
 private fun ShowCharacterDetails(
     data: CharacterDetails?,
     onBackButton: () -> Unit,
-    modifier: Modifier = Modifier,
+    onNavigateTo:(String) -> Unit,
+    modifier: Modifier = Modifier
 ) {//for topbar
     Column(
         modifier.fillMaxWidth()
@@ -138,7 +143,7 @@ private fun ShowCharacterDetails(
             data?.let { DisplaySpices(it) }
             data?.origin?.let { DisplayOrigin(it) }
             data?.locations?.let { DisplayLocation(it) }
-            DisplayEpisodes(data?.episodes)
+            DisplayEpisodes(data?.episodes,onNavigateTo)
         }
     }
 }
@@ -174,8 +179,10 @@ private fun DisplayStatus(
 }
 
 @Composable
-private fun DisplaySpices(data: CharacterDetails,
-                          modifier: Modifier = Modifier) {
+private fun DisplaySpices(
+    data: CharacterDetails,
+    modifier: Modifier = Modifier
+) {
     Column(modifier.fillMaxWidth()) {
         //Species
         SetTitleContent(R.string.species, data?.species)
@@ -185,8 +192,10 @@ private fun DisplaySpices(data: CharacterDetails,
 }
 
 @Composable
-private fun DisplayOrigin(origin: Origins,
-                          modifier: Modifier = Modifier) {
+private fun DisplayOrigin(
+    origin: Origins,
+    modifier: Modifier = Modifier
+) {
     Column(modifier.fillMaxWidth())
     {
         Row(
@@ -208,8 +217,10 @@ private fun DisplayOrigin(origin: Origins,
 }
 
 @Composable
-private fun DisplayLocation(data: Locations,
-                            modifier: Modifier = Modifier) {
+private fun DisplayLocation(
+    data: Locations,
+    modifier: Modifier = Modifier
+) {
     Column(modifier.fillMaxWidth())
     {
         Row(
@@ -231,8 +242,11 @@ private fun DisplayLocation(data: Locations,
 }
 
 @Composable
-private fun DisplayEpisodes(episodes: List<Episode>?,
-                            modifier: Modifier = Modifier) {
+private fun DisplayEpisodes(
+    episodes: List<Episode>?,
+    onNavigateTo:(String) -> Unit,
+    modifier: Modifier = Modifier
+) {
     Column(modifier.fillMaxWidth()) {
         Row(
             modifier = Modifier.padding(
@@ -258,7 +272,7 @@ private fun DisplayEpisodes(episodes: List<Episode>?,
                 items(
                     it
                 ) { index ->
-                    EpisodesItem(episodes[index])
+                    EpisodesItem(episodes[index],onNavigateTo)
                 }
             }
 
@@ -268,12 +282,13 @@ private fun DisplayEpisodes(episodes: List<Episode>?,
 }
 
 @Composable
-private fun EpisodesItem(episode: Episode,modifier : Modifier = Modifier) {
+private fun EpisodesItem(episode: Episode,onNavigateTo:(String) -> Unit, modifier: Modifier = Modifier) {
     Card(
         shape = RoundedCornerShape(MaterialTheme.dimens.elevation),
         modifier = modifier
             .width(MaterialTheme.dimens.cardWidth)
             .height(MaterialTheme.dimens.cardHeight)
+            .clickable { onNavigateTo(episode.id) }
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
